@@ -4,16 +4,39 @@ import { SearchResults, SpotifyApi } from "@spotify/web-api-ts-sdk"; // use "@sp
 import sdk from "@/lib/spotify-sdk/ClientInstance";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Home() {
   const session = useSession();
 
   if (!session || session.status !== "authenticated") {
     return (
-      <div>
-        <h1>Spotify Web API Typescript SDK in Next.js</h1>
-        <button onClick={() => signIn("spotify")}>Sign in with Spotify</button>
-      </div>
+      <main className="min-h-screen p-24">
+        <Card className="w-[350px]">
+          <CardHeader>
+            <CardTitle>Spotify Web API Typescript SDK in Next.js</CardTitle>
+            <CardDescription>
+              Share your top artists and tracks with your friends!
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center">
+              <button
+                className="border border-foreground p-4 rounded"
+                onClick={() => signIn("spotify")}
+              >
+                Sign in with Spotify
+              </button>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
     );
   }
 
