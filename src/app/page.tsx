@@ -17,7 +17,7 @@ export default function Home() {
 
   if (!session || session.status !== "authenticated") {
     return (
-      <main className="min-h-screen p-24">
+      <main className="flex p-24 justify-center">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Spotify Web API Typescript SDK in Next.js</CardTitle>
