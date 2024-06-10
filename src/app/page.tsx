@@ -1,6 +1,11 @@
 "use client";
 
-import { SearchResults, SpotifyApi } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
+import {
+  Artist,
+  Page,
+  SearchResults,
+  SpotifyApi,
+} from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
 import sdk from "@/lib/spotify-sdk/ClientInstance";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -50,35 +55,49 @@ export default function Home() {
 }
 
 function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
-  const [results, setResults] = useState<SearchResults>({} as SearchResults);
+  const [topArtists, setTopArtists] = useState<Page<Artist>>(
+    {} as Page<Artist>
+  );
 
   useEffect(() => {
     (async () => {
-      const results = await sdk.search("The Beatles", ["artist"]);
-      setResults(() => results);
+      // TODO: parallel requests for short, medium, and long term top artists
+      const topArtists: Page<Artist> = await sdk.currentUser.topItems(
+        "artists",
+        "short_term"
+      );
+      setTopArtists(() => topArtists);
+      console.log(topArtists);
     })();
   }, [sdk]);
 
   // generate a table for the results
-  const tableRows = results.artists?.items.map((artist) => {
+  const tableRows = topArtists?.items?.map((artist, index) => {
     return (
       <tr key={artist.id}>
+        <td>{index + 1}</td>
+        <td>
+          <img
+            height={artist.images[2].height}
+            width={artist.images[2].width}
+            src={artist.images[2].url}
+            alt={artist.name + " image"}
+          />
+        </td>
         <td>{artist.name}</td>
-        <td>{artist.popularity}</td>
-        <td>{artist.followers.total}</td>
       </tr>
     );
   });
 
   return (
     <>
-      <h1>Spotify Search for The Beatles</h1>
+      <h1>Top Spotify Artists</h1>
       <table>
         <thead>
           <tr>
+            <th>#</th>
+            <th>Image</th>
             <th>Name</th>
-            <th>Popularity</th>
-            <th>Followers</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>

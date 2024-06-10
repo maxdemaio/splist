@@ -16,14 +16,11 @@ const spotifyProfile = SpotifyProvider({
 
 const authURL = new URL("https://accounts.spotify.com/authorize");
 
+// Scopes are the permissions that the user will be asked to grant to the app
 const scopes = [
   "user-read-email",
   "user-read-private",
-  "user-read-playback-state",
-  "user-library-read",
-  "user-modify-playback-state",
-  "playlist-read-private",
-  "playlist-read-collaborative",
+  "user-top-read",
 ];
 
 authURL.searchParams.append("scope", scopes.join(" "));
