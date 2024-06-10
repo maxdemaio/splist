@@ -8,11 +8,11 @@ interface INavbarProps {
 
 export default function Navbar(props: INavbarProps) {
   return (
-    <nav className="flex items-center justify-between px-12 py-6 bg-neutral-900">
-      <div className="text-2xl">Splister~</div>
+    <nav className="flex items-center justify-between px-12 py-6">
+      <div className="text-2xl">Splist~</div>
       {props.userName && <div>Signed in as {props.userName}</div>}
       {props.showSignOut && (
-        <Button onClick={() => signOut()}>Sign out</Button>
+        <Button variant={"secondary"} onClick={() => signOut()}>Sign out</Button>
       )}
     </nav>
   );

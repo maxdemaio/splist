@@ -92,6 +92,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         <TableCell>{index + 1}</TableCell>
         <TableCell>
           <img
+          className="rounded"
             height={artist.images[2].height}
             width={artist.images[2].width}
             src={artist.images[2].url}
