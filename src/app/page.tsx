@@ -27,7 +27,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Navbar from "@/components/ui/navbar";
-import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/ui/copy-button";
 
 export default function Home() {
@@ -61,11 +60,13 @@ export default function Home() {
     );
   }
 
-
-
   return (
     <main className="flex flex-col gap-8 p-6 md:p-12">
-      <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
+      <Navbar
+        showSignOut
+        userName={session.data.user?.name}
+        userImage={session.data.user?.image}
+      />
       <SpotifySearch sdk={sdk} />
     </main>
   );
@@ -80,7 +81,6 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     (async () => {
       // TODO: make these requests in parallel
 
-
       // For now, just short term top artists
       const topArtists: Page<Artist> = await sdk.currentUser.topItems(
         "artists",
@@ -90,22 +90,22 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     })();
   }, [sdk]);
 
-  // generate a table for the results
-  const tableRows = topArtists?.items?.map((artist, index) => {
+  // generate a table for the artists
+  const artistTableRows = topArtists?.items?.map((artist, index) => {
     return (
-      <TableRow key={artist.id}>
-        <TableCell>{index + 1}</TableCell>
-        <TableCell>
+      <>
+        <li key={artist.id} className="flex gap-4">
+          <span>{index + 1}</span>
           <img
-            className="rounded"
+            className=""
             height={artist.images[2].height}
             width={artist.images[2].width}
             src={artist.images[2].url}
             alt={artist.name + " image"}
           />
-        </TableCell>
-        <TableCell>{artist.name}</TableCell>
-      </TableRow>
+          <span>{artist.name}</span>
+        </li>
+      </>
     );
   });
 
@@ -125,18 +125,35 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         </div>
       </div>
 
-      <div className="h-[500px] overflow-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">#</TableHead>
-              <TableHead>Image</TableHead>
-              <TableHead>Name</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{tableRows}</TableBody>
-        </Table>
-      </div>
+      <section>
+        <div
+          className="gap-8 flex flex-col border border-neutral-800 rounded-lg p-8"
+          aria-label="Splist Card"
+        >
+          {/* Header */}
+          <div className="flex gap-4">
+            <div>image</div>
+            <div className="flex flex-col gap-4">
+              <div className="text-3xl md:text-4xl">Splist</div>
+              <div>splist.com</div>
+            </div>
+          </div>
+          {/* Date information */}
+          <div className="text-xl opacity-80">
+            Past four weeks as of {month}/{day}/{year}
+          </div>
+          {/* Table */}
+          <div className="flex gap-12">
+            <ol>
+              {artistTableRows}
+            </ol>
+            <ol>
+              <li>example song</li>
+              <li>example song</li>
+            </ol>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
