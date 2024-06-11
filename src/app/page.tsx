@@ -140,12 +140,21 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
 
       <section className="mx-auto">
         <div
-          className="bg-neutral-900 gap-8 flex flex-col border border-neutral-800 rounded-lg p-8"
+          id="split-card"
+          className="gap-8 flex flex-col border-2 border-neutral-700 rounded-lg p-12"
           aria-label="Splist Card"
         >
           {/* Header */}
           <div className="flex gap-4">
-            <div>image</div>
+            <div>
+              <img
+                width={80}
+                height={80}
+                src="/splist-logo.png"
+                alt="splist logo"
+              />
+            </div>
+
             <div className="flex flex-col gap-4">
               <div className="text-3xl md:text-4xl">Splist</div>
               <div>splist.com</div>

@@ -13,7 +13,10 @@ export default function Navbar(props: INavbarProps) {
   return (
     <div className="flex flex-col gap-8">
       <nav className="text-lg flex justify-between">
-        <div className="flex items-center text-3xl md:text-4xl">Splist~</div>
+        <div className="flex gap-4">
+          <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
+          <div className="flex items-center text-3xl md:text-4xl">Splist~</div>
+        </div>
         {props.showSignOut && (
           <div className="flex items-center justify-end md:gap-12 gap-4">
             <div className="flex gap-2 items-center">
