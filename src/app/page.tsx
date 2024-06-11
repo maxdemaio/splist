@@ -154,7 +154,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           className="relative gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
           aria-label="Splist Card"
         >
-          <CopyButton className="absolute top-4 right-4">
+          <CopyButton className="absolute top-6 right-6">
             Copy to Clipboard
           </CopyButton>
 
