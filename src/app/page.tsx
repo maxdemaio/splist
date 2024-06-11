@@ -121,7 +121,10 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
       <>
         <li key={track.id} className="flex items-center gap-4">
           <span>{index + 1}</span>
+          <div className="flex flex-col">
           <span>{track.name}</span>
+          <span className="opacity-80 text-xs">{track.artists[0].name}</span>
+          </div>
         </li>
       </>
     );
@@ -159,7 +162,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           </CopyButton>
 
           {/* Header */}
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <div>
               <img
                 width={80}
@@ -169,9 +172,9 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
               />
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <div className="text-3xl md:text-4xl">Splist</div>
-              <div>splist.com</div>
+              <div>https://splist.com</div>
             </div>
           </div>
           {/* Date information */}
