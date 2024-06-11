@@ -1,44 +1,44 @@
 {
-  "name": "example_next",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": false,
-    "tabWidth": 4,
-    "trailingComma": "es5",
-    "printWidth": 100,
-    "bracketSpacing": true
-  },
-  "dependencies": {
-    "@radix-ui/react-slot": "^1.0.2",
-    "@spotify/web-api-ts-sdk": "^1.2.0",
-    "@types/node": "20.5.9",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "eslint": "8.48.0",
-    "eslint-config-next": "13.4.19",
-    "lucide-react": "^0.390.0",
-    "next": "14.2.3",
-    "next-auth": "^4.24.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.2.2"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "prettier": "3.3.2",
-    "tailwindcss": "^3.4.4"
-  }
+    "name": "example_next",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "prettier": {
+        "semi": true,
+        "singleQuote": false,
+        "tabWidth": 4,
+        "trailingComma": "es5",
+        "printWidth": 100,
+        "bracketSpacing": true
+    },
+    "dependencies": {
+        "@radix-ui/react-slot": "^1.0.2",
+        "@spotify/web-api-ts-sdk": "^1.2.0",
+        "@types/node": "20.5.9",
+        "@types/react": "18.2.21",
+        "@types/react-dom": "18.2.7",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.1",
+        "eslint": "8.48.0",
+        "eslint-config-next": "13.4.19",
+        "lucide-react": "^0.390.0",
+        "next": "14.2.3",
+        "next-auth": "^4.24.5",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "tailwind-merge": "^2.3.0",
+        "tailwindcss-animate": "^1.0.7",
+        "typescript": "5.2.2"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.19",
+        "postcss": "^8.4.38",
+        "prettier": "3.3.2",
+        "tailwindcss": "^3.4.4"
+    }
 }
