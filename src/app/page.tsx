@@ -81,9 +81,9 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         "short_term",
         5
       );
-    })();
 
-    setTopTracks(() => topTracks);
+      setTopTracks(() => topTracks);
+    })();
   }, [sdk]);
 
   // generate a table for the artists
