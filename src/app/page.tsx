@@ -129,20 +129,17 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-3xl">
-          Past four weeks as of {month}/{day}/{year}
-        </h2>
-        <div>
-          <CopyButton className="flex-shrink-0">Copy to Clipboard</CopyButton>
-        </div>
+      <div className="flex flex-col items-center justify-center gap-4">
+
 
         <section className="mx-auto">
           <div
             id="split-card"
-            className="gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
+            className="relative gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
             aria-label="Splist Card"
           >
+                      <CopyButton className="absolute top-4 right-4">Copy to Clipboard</CopyButton>
+
             {/* Header */}
             <div className="flex gap-4">
               <div>
