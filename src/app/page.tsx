@@ -5,6 +5,7 @@ import {
   Page,
   SearchResults,
   SpotifyApi,
+  UserProfile,
 } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
 import sdk from "@/lib/spotify-sdk/ClientInstance";
 import { useSession, signOut, signIn } from "next-auth/react";
@@ -26,6 +27,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Navbar from "@/components/ui/navbar";
+import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 
 export default function Home() {
   const session = useSession();
@@ -58,12 +61,12 @@ export default function Home() {
     );
   }
 
+
+
   return (
-    <main>
-      <Navbar showSignOut userName={session.data.user?.name} />
-      <div className="p-8">
-        <SpotifySearch sdk={sdk} />
-      </div>
+    <main className="flex flex-col gap-8 p-6 md:p-12">
+      <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
+      <SpotifySearch sdk={sdk} />
     </main>
   );
 }
@@ -75,13 +78,15 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
 
   useEffect(() => {
     (async () => {
-      // TODO: parallel requests for short, medium, and long term top artists
+      // TODO: make these requests in parallel
+
+
+      // For now, just short term top artists
       const topArtists: Page<Artist> = await sdk.currentUser.topItems(
         "artists",
         "short_term"
       );
       setTopArtists(() => topArtists);
-      console.log(topArtists);
     })();
   }, [sdk]);
 
@@ -92,7 +97,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         <TableCell>{index + 1}</TableCell>
         <TableCell>
           <img
-          className="rounded"
+            className="rounded"
             height={artist.images[2].height}
             width={artist.images[2].width}
             src={artist.images[2].url}
@@ -104,9 +109,22 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     );
   });
 
+  const date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+
   return (
     <>
-      <h2 className="text-4xl">4 weeks</h2>
+      <div className="flex flex-col gap-4">
+        <h2 className="text-3xl">
+          Past four weeks as of {month}/{day}/{year}
+        </h2>
+        <div>
+          <CopyButton className="flex-shrink-0">Copy to Clipboard</CopyButton>
+        </div>
+      </div>
+
       <div className="h-[500px] overflow-auto">
         <Table>
           <TableHeader>
@@ -119,8 +137,6 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           <TableBody>{tableRows}</TableBody>
         </Table>
       </div>
-
-      <h2 className="text-4xl">6 months</h2>
     </>
   );
 }
