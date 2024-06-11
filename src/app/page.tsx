@@ -136,41 +136,41 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         <div>
           <CopyButton className="flex-shrink-0">Copy to Clipboard</CopyButton>
         </div>
+
+        <section className="mx-auto">
+          <div
+            id="split-card"
+            className="gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
+            aria-label="Splist Card"
+          >
+            {/* Header */}
+            <div className="flex gap-4">
+              <div>
+                <img
+                  width={80}
+                  height={80}
+                  src="/splist-logo.png"
+                  alt="splist logo"
+                />
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div className="text-3xl md:text-4xl">Splist</div>
+                <div>splist.com</div>
+              </div>
+            </div>
+            {/* Date information */}
+            <div className="text-xl opacity-80">
+              Past four weeks as of {month}/{day}/{year}
+            </div>
+            {/* Table */}
+            <div className="flex gap-12">
+              <ol className="flex flex-col gap-4">{artistTable}</ol>
+              <ol className="flex flex-col gap-4">{trackTable}</ol>
+            </div>
+          </div>
+        </section>
       </div>
-
-      <section className="mx-auto">
-        <div
-          id="split-card"
-          className="gap-8 flex flex-col border-2 border-neutral-700 rounded-lg p-12"
-          aria-label="Splist Card"
-        >
-          {/* Header */}
-          <div className="flex gap-4">
-            <div>
-              <img
-                width={80}
-                height={80}
-                src="/splist-logo.png"
-                alt="splist logo"
-              />
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div className="text-3xl md:text-4xl">Splist</div>
-              <div>splist.com</div>
-            </div>
-          </div>
-          {/* Date information */}
-          <div className="text-xl opacity-80">
-            Past four weeks as of {month}/{day}/{year}
-          </div>
-          {/* Table */}
-          <div className="flex gap-12">
-            <ol className="flex flex-col gap-4">{artistTable}</ol>
-            <ol className="flex flex-col gap-4">{trackTable}</ol>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
