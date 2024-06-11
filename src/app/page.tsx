@@ -1,6 +1,7 @@
 "use client";
 
 import { Artist, Page, SpotifyApi, Track } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
+
 import sdk from "@/lib/spotify-sdk/ClientInstance";
 import { useSession, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import Navbar from "@/components/ui/navbar";
 import { CopyButton } from "@/components/ui/copy-button";
+import  Image  from "next/image"
 
 export default function Home() {
   const session = useSession();
@@ -100,7 +102,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         <li key={artist.id} className="flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
-            <img
+            <Image
               className="max-w-[100%]"
               height={artist.images[2].height}
               width={artist.images[2].width}
@@ -149,6 +151,14 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     }
   }
 
+  function generateOGImage(htmlContent: JSX.Element[]) {
+
+  }
+
+  function copyToClipboard() {
+
+  }
+
   return (
     <>
       <section className="mx-auto">
@@ -157,14 +167,14 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           className="relative gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
           aria-label="Splist Card"
         >
-          <CopyButton className="absolute top-6 right-6">
+          <CopyButton id="copyButton" className="absolute top-6 right-6" onClick={() => generateOGImage(artistsTracksTable)}>
             Copy to Clipboard
           </CopyButton>
 
           {/* Header */}
           <div className="flex items-center gap-4">
             <div>
-              <img
+              <Image
                 width={80}
                 height={80}
                 src="/splist-logo.png"
