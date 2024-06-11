@@ -1,14 +1,8 @@
 "use client";
 
-import {
-  Artist,
-  Page,
-  SearchResults,
-  SpotifyApi,
-  UserProfile,
-} from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
+import { Artist, Page, SpotifyApi, Track } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
 import sdk from "@/lib/spotify-sdk/ClientInstance";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -17,15 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import Navbar from "@/components/ui/navbar";
 import { CopyButton } from "@/components/ui/copy-button";
 
@@ -34,7 +19,7 @@ export default function Home() {
 
   if (!session || session.status !== "authenticated") {
     return (
-      <main>
+      <main className="flex flex-col gap-8 p-6 md:p-12">
         <Navbar />
         <div className="flex p-24 justify-center">
           <Card className="w-[350px]">
@@ -77,33 +62,61 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     {} as Page<Artist>
   );
 
+  const [topTracks, setTopTracks] = useState<Page<Track>>({} as Page<Track>);
+
   useEffect(() => {
     (async () => {
+      // For now, just short term top artists
       // TODO: make these requests in parallel
 
-      // For now, just short term top artists
       const topArtists: Page<Artist> = await sdk.currentUser.topItems(
         "artists",
-        "short_term"
+        "short_term",
+        5
       );
       setTopArtists(() => topArtists);
+
+      const topTracks: Page<Track> = await sdk.currentUser.topItems(
+        "tracks",
+        "short_term",
+        5
+      );
     })();
+
+    setTopTracks(() => topTracks);
   }, [sdk]);
 
   // generate a table for the artists
-  const artistTableRows = topArtists?.items?.map((artist, index) => {
+  const artistTable = topArtists?.items?.map((artist, index) => {
     return (
       <>
-        <li key={artist.id} className="flex gap-4">
+        <li key={artist.id} className="flex items-center gap-4">
           <span>{index + 1}</span>
-          <img
-            className=""
-            height={artist.images[2].height}
-            width={artist.images[2].width}
-            src={artist.images[2].url}
-            alt={artist.name + " image"}
-          />
+          <div className="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
+            <img
+              className="max-w-[100%]"
+              height={artist.images[2].height}
+              width={artist.images[2].width}
+              src={artist.images[2].url}
+              alt={artist.name + " image"}
+            />
+          </div>
+
           <span>{artist.name}</span>
+        </li>
+      </>
+    );
+  });
+
+  console.log(topTracks);
+
+  // generate a table for the artists
+  const trackTable = topTracks?.items?.map((track, index) => {
+    return (
+      <>
+        <li key={track.id} className="flex items-center gap-4">
+          <span>{index + 1}</span>
+          <span>{track.name}</span>
         </li>
       </>
     );
@@ -127,7 +140,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
 
       <section>
         <div
-          className="gap-8 flex flex-col border border-neutral-800 rounded-lg p-8"
+          className="bg-neutral-900 gap-8 flex flex-col border border-neutral-800 rounded-lg p-8"
           aria-label="Splist Card"
         >
           {/* Header */}
@@ -144,13 +157,8 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           </div>
           {/* Table */}
           <div className="flex gap-12">
-            <ol>
-              {artistTableRows}
-            </ol>
-            <ol>
-              <li>example song</li>
-              <li>example song</li>
-            </ol>
+            <ol className="flex flex-col gap-4">{artistTable}</ol>
+            <ol className="flex flex-col gap-4">{trackTable}</ol>
           </div>
         </div>
       </section>

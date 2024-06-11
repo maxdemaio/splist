@@ -12,7 +12,7 @@ export default function Navbar(props: INavbarProps) {
   console.log(props);
   return (
     <div className="flex flex-col gap-8">
-      <nav className="text-lg flex justify-between md:p-0">
+      <nav className="text-lg flex justify-between">
         <div className="flex items-center text-3xl md:text-4xl">Splist~</div>
         {props.showSignOut && (
           <div className="flex items-center justify-end md:gap-12 gap-4">
@@ -20,7 +20,7 @@ export default function Navbar(props: INavbarProps) {
               <Icons.github />
               <span className="hidden md:flex">GitHub</span>
             </div>
-            {props.userName && (
+            {props.showSignOut && props.userName && (
               <div className="hidden lg:flex items-center justify-center gap-4">
                 {props.userImage ? (
                   <img
@@ -47,21 +47,23 @@ export default function Navbar(props: INavbarProps) {
           </div>
         )}
       </nav>
-      <div className="lg:hidden flex items-center justify-start gap-4">
-        {props.userImage ? (
-          <img
-            src={props.userImage}
-            alt="User image"
-            className="rounded-full"
-            width={50}
-            height={50}
-          />
-        ) : (
-          <Icons.profileDefault />
-        )}
+      {props.showSignOut && (
+        <div className="lg:hidden flex items-center justify-start gap-4">
+          {props.userImage ? (
+            <img
+              src={props.userImage}
+              alt="User image"
+              className="rounded-full"
+              width={50}
+              height={50}
+            />
+          ) : (
+            <Icons.profileDefault />
+          )}
 
-        <span>Signed in as {props.userName}</span>
-      </div>
+          <span>Signed in as {props.userName}</span>
+        </div>
+      )}
     </div>
   );
 }
