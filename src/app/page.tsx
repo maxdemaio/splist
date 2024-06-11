@@ -46,6 +46,7 @@ export default function Home() {
   }
 
   return (
+    // gap-8 same as mobi navbar gap
     <main className="flex flex-col gap-8 p-6 md:p-12 md:gap-12">
       <Navbar
         showSignOut
@@ -58,6 +59,12 @@ export default function Home() {
 }
 
 function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const limit = 5;
+
   const [topArtists, setTopArtists] = useState<Page<Artist>>(
     {} as Page<Artist>
   );
@@ -72,21 +79,21 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
       const topArtists: Page<Artist> = await sdk.currentUser.topItems(
         "artists",
         "short_term",
-        5
+        limit
       );
       setTopArtists(() => topArtists);
 
       const topTracks: Page<Track> = await sdk.currentUser.topItems(
         "tracks",
         "short_term",
-        5
+        limit
       );
 
       setTopTracks(() => topTracks);
     })();
   }, [sdk]);
 
-  // generate a table for the artists
+  // Generate a table for the artists
   const artistTable = topArtists?.items?.map((artist, index) => {
     return (
       <>
@@ -108,9 +115,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     );
   });
 
-  console.log(topTracks);
-
-  // generate a table for the artists
+  // Generate a table for the artists
   const trackTable = topTracks?.items?.map((track, index) => {
     return (
       <>
@@ -122,10 +127,24 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     );
   });
 
-  const date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
+  const artistsTracksTable = [];
+
+  if (
+    artistTable &&
+    trackTable &&
+    artistTable.length === limit &&
+    trackTable.length === limit
+  ) {
+    let artistI = 0;
+    let trackI = 0;
+    for (let i = 0; i < limit * 2; i++) {
+      if (i % 2 === 0) {
+        artistsTracksTable.push(artistTable[artistI++]);
+      } else {
+        artistsTracksTable.push(trackTable[trackI++]);
+      }
+    }
+  }
 
   return (
     <>
@@ -160,10 +179,9 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
             Past four weeks as of {month}/{day}/{year}
           </div>
           {/* Table */}
-          <div className="flex gap-12">
-            <ol className="flex flex-col gap-4">{artistTable}</ol>
-            <ol className="flex flex-col gap-4">{trackTable}</ol>
-          </div>
+          <ol className="grid grid-cols-2 gap-x-8 gap-y-4">
+            {artistsTracksTable}
+          </ol>
         </div>
       </section>
     </>

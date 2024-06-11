@@ -41,6 +41,7 @@ export default function Navbar(props: INavbarProps) {
             )}
 
             <Button
+              size={"lg"}
               variant={"secondary"}
               className="text-lg"
               onClick={() => signOut()}
