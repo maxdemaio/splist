@@ -138,7 +138,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         </div>
       </div>
 
-      <section>
+      <section className="mx-auto">
         <div
           className="bg-neutral-900 gap-8 flex flex-col border border-neutral-800 rounded-lg p-8"
           aria-label="Splist Card"
