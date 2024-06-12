@@ -151,7 +151,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
           <div className="flex flex-col gap-2">
             <div className="text-3xl md:text-4xl">Splist</div>
-            <div>https://splist.com</div>
+            <div>https://splist-lac.vercel.app/</div>
           </div>
         </div>
         {/* Date information */}

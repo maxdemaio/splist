@@ -85,7 +85,7 @@ export async function POST(request: Request) {
               tw="flex flex-col"
             >
               <div tw="text-3xl md:text-4xl">Splist</div>
-              <div>https://splist.com</div>
+              <div>https://splist-lac.vercel.app/</div>
             </div>
           </div>
           {/* Date information */}
