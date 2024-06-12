@@ -38,7 +38,7 @@ export default function Navbar(props: INavbarProps) {
             className="flex gap-2 items-center underline transition-all duration-300 hover:opacity-80"
           >
             <Icons.github />
-            <span className="hidden md:flex">GitHub</span>
+            <span className="hidden sm:flex">GitHub</span>
           </a>
           <Button
             size={"lg"}

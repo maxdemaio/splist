@@ -134,39 +134,47 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   }
 
   return (
-    <div
-      id="splist-card"
-      className="relative self-center max-w-fit bg-neutral-950 text-white relative gap-8 flex flex-col border-4 border-neutral-700 rounded-xl p-4 sm:p-12"
-      aria-label="Splist Card"
-    >
-      {/* Header */}
-      <div className="space-between flex items-center gap-4">
-        <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
-        <div className="flex flex-col gap-2">
-          <div className="text-3xl md:text-4xl">Splist</div>
-          <div>https://splist-lac.vercel.app/</div>
-        </div>
+    <div className="flex flex-col gap-8">
+      <div>
+        <CopyButton id="copy-button" className="flex sm:hidden" onClick={getAndCopyImage}>
+          Copy to Clipboard
+        </CopyButton>
       </div>
-      <CopyButton id="copy-button" className="absolute top-6 right-6" onClick={getAndCopyImage}>
-        Copy to Clipboard
-      </CopyButton>
-      {/* Date information */}
-      <div className="flex text-xl opacity-80">
-        Past four weeks as of {month}/{day}/{year}
-      </div>
-      {/* Table */}
-      <div className="flex-col md:flex-row flex gap-8">
-        <div className="flex flex-col gap-4">
-          <h3 className="opacity-80 text-lg">Top Artists</h3>
-          <ol key={"artistTable"} className="flex flex-col gap-4">
-            {artistTable ? artistTable : skeletons}
-          </ol>
+
+      <div
+        id="splist-card"
+        className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border-4 border-neutral-700 rounded-xl p-4 sm:p-12"
+        aria-label="Splist Card"
+      >
+        {/* Header */}
+        <div className="space-between flex items-center gap-4">
+          <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
+          <div className="flex flex-col gap-2">
+            <div className="text-3xl md:text-4xl">Splist</div>
+            <div>https://splist-lac.vercel.app/</div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4">
-          <h3 className="opacity-80 text-lg">Top Songs</h3>
-          <ol key={"trackTable"} className="flex flex-col gap-4 ">
-            {trackTable ? trackTable : skeletons}
-          </ol>
+        <CopyButton id="copy-button" className="hidden sm:flex absolute top-6 right-6" onClick={getAndCopyImage}>
+          Copy to Clipboard
+        </CopyButton>
+        {/* Date information */}
+        <div className="flex text-xl opacity-80">
+          Past four weeks as of {month}/{day}/{year}
+        </div>
+        {/* Table */}
+        <div className="flex-col md:flex-row flex gap-8">
+          <div className="flex flex-col gap-4">
+            <h3 className="opacity-80 text-lg">Top Artists</h3>
+            <ol key={"artistTable"} className="flex flex-col gap-4">
+              {artistTable ? artistTable : skeletons}
+            </ol>
+          </div>
+          <div className="flex flex-col gap-4">
+            <h3 className="opacity-80 text-lg">Top Songs</h3>
+            <ol key={"trackTable"} className="flex flex-col gap-4 ">
+              {trackTable ? trackTable : skeletons}
+            </ol>
+          </div>
         </div>
       </div>
     </div>
