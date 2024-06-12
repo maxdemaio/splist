@@ -11,7 +11,9 @@ export async function POST(request: Request) {
   const year = date.getFullYear();
 
   const HOST =
-    process.env.NODE_ENV === "production" ? "https://splist-lac.vercel.app" : "http://localhost:3000";
+    process.env.NODE_ENV === "production"
+      ? "https://splist-lac.vercel.app"
+      : "http://localhost:3000";
 
   const body = await request.json();
   const { topArtists, topTracks } = body;
@@ -32,7 +34,16 @@ export async function POST(request: Request) {
           <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
         </div>
 
-        <span tw="truncate max-w-[167px]">{artist.name}</span>
+        <span
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+          tw="max-w-[167px]"
+        >
+          {artist.name}
+        </span>
       </li>
     );
   });
@@ -47,8 +58,26 @@ export async function POST(request: Request) {
       >
         <span>{index + 1}</span>
         <div tw="flex flex-col">
-          <span tw="truncate max-w-[270px]">{track.name}</span>
-          <span tw="opacity-80 text-xs truncate max-w-[270px]">{track.artists[0].name}</span>
+          <span
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            tw=" max-w-[270px]"
+          >
+            {track.name}
+          </span>
+          <span
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            tw="opacity-80 text-xs max-w-[270px]"
+          >
+            {track.artists[0].name}
+          </span>
         </div>
       </li>
     );
@@ -62,15 +91,16 @@ export async function POST(request: Request) {
         <div
           style={{
             gap: "32px",
+            backgroundColor: "rgb(10, 10, 10)",
           }}
-          tw="bg-[rgb(10 10 10)] text-white h-full relative flex flex-col rounded-xl p-12"
+          tw="text-white h-full relative flex flex-col rounded-xl p-12"
         >
           {/* Header */}
           <div
             style={{
               gap: "16px",
             }}
-            tw="flex items-center gap-4"
+            tw="flex items-center"
           >
             <img
               style={{ width: "80px", height: "80px" }}
