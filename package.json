@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "npx prettier . --write"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "bracketSpacing": true
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
@@ -19,8 +28,8 @@
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "lucide-react": "^0.390.0",
-    "next": "13.4.19",
-    "next-auth": "^4.23.1",
+    "next": "14.2.3",
+    "next-auth": "^4.24.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwind-merge": "^2.3.0",
@@ -30,6 +39,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
+    "prettier": "3.3.2",
     "tailwindcss": "^3.4.4"
   }
 }

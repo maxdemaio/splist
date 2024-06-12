@@ -1,18 +1,15 @@
 "use client";
 
 import { Artist, Page, SpotifyApi, Track } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
+
 import sdk from "@/lib/spotify-sdk/ClientInstance";
 import { useSession, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/ui/navbar";
 import { CopyButton } from "@/components/ui/copy-button";
+import Image from "next/image";
+import { ImageResponse } from "next/og";
 
 export default function Home() {
   const session = useSession();
@@ -48,11 +45,7 @@ export default function Home() {
   return (
     // gap-8 same as mobi navbar gap
     <main className="flex flex-col gap-8 p-6 md:p-12 md:gap-12">
-      <Navbar
-        showSignOut
-        userName={session.data.user?.name}
-        userImage={session.data.user?.image}
-      />
+      <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
       <SpotifySearch sdk={sdk} />
     </main>
   );
@@ -65,9 +58,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
   const year = date.getFullYear();
   const limit = 5;
 
-  const [topArtists, setTopArtists] = useState<Page<Artist>>(
-    {} as Page<Artist>
-  );
+  const [topArtists, setTopArtists] = useState<Page<Artist>>({} as Page<Artist>);
 
   const [topTracks, setTopTracks] = useState<Page<Track>>({} as Page<Track>);
 
@@ -83,11 +74,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
       );
       setTopArtists(() => topArtists);
 
-      const topTracks: Page<Track> = await sdk.currentUser.topItems(
-        "tracks",
-        "short_term",
-        limit
-      );
+      const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", "short_term", limit);
 
       setTopTracks(() => topTracks);
     })();
@@ -100,7 +87,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         <li key={artist.id} className="h-[50px] flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
-            <img
+            <Image
               className="max-w-[100%]"
               height={artist.images[2].height}
               width={artist.images[2].width}
@@ -132,12 +119,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
 
   const artistsTracksTable = [];
 
-  if (
-    artistTable &&
-    trackTable &&
-    artistTable.length === limit &&
-    trackTable.length === limit
-  ) {
+  if (artistTable && trackTable && artistTable.length === limit && trackTable.length === limit) {
     let artistI = 0;
     let trackI = 0;
     for (let i = 0; i < limit * 2; i++) {
@@ -149,6 +131,45 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     }
   }
 
+  function generateOGImage() {
+    const trackCard: HTMLDivElement = document
+      .getElementById("split-card")
+      ?.cloneNode(true) as HTMLDivElement;
+    const copyButton: HTMLButtonElement = document
+      .getElementById("copyButton")
+      ?.cloneNode(true) as HTMLButtonElement;
+
+    trackCard?.removeChild(copyButton);
+
+    fetch("/api/og-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        html: trackCard,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        // Show a toast that something went wrong
+      });
+  }
+
+  function copyToClipboard(payload: ImageResponse) {
+    payload.blob().then((blob) => {
+      navigator.clipboard.write([
+        new ClipboardItem({
+          "image/png": blob,
+        }),
+      ]);
+    });
+  }
+
   return (
     <>
       <section className="mx-auto">
@@ -157,19 +178,18 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           className="relative gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
           aria-label="Splist Card"
         >
-          <CopyButton className="absolute top-6 right-6">
+          <CopyButton
+            id="copyButton"
+            className="absolute top-6 right-6"
+            onClick={() => generateOGImage}
+          >
             Copy to Clipboard
           </CopyButton>
 
           {/* Header */}
           <div className="flex items-center gap-4">
             <div>
-              <img
-                width={80}
-                height={80}
-                src="/splist-logo.png"
-                alt="splist logo"
-              />
+              <Image width={80} height={80} src="/splist-logo.png" alt="splist logo" />
             </div>
 
             <div className="flex flex-col gap-2">
