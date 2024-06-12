@@ -117,23 +117,9 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     );
   });
 
-  const artistsTracksTable = [];
-
-  if (artistTable && trackTable && artistTable.length === limit && trackTable.length === limit) {
-    let artistI = 0;
-    let trackI = 0;
-    for (let i = 0; i < limit * 2; i++) {
-      if (i % 2 === 0) {
-        artistsTracksTable.push(artistTable[artistI++]);
-      } else {
-        artistsTracksTable.push(trackTable[trackI++]);
-      }
-    }
-  }
-
   function generateOGImage() {
     const trackCard: HTMLDivElement = document
-      .getElementById("split-card")
+      .getElementById("splist-card")
       ?.cloneNode(true) as HTMLDivElement;
     const copyButton: HTMLButtonElement = document
       .getElementById("copyButton")
@@ -174,7 +160,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     <>
       <section className="mx-auto">
         <div
-          id="split-card"
+          id="splist-card"
           className="relative gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
           aria-label="Splist Card"
         >
