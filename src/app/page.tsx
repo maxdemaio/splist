@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/ui/navbar";
 import { CopyButton } from "@/components/ui/copy-button";
+// TODO: add later
 import Image from "next/image";
 import { ImageResponse } from "next/og";
 
@@ -87,7 +88,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         <li key={artist.id} className="h-[50px] flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
-            <Image
+            <img
               className="max-w-[100%]"
               height={artist.images[2].height}
               width={artist.images[2].width}
@@ -117,17 +118,22 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     );
   });
 
-  function generateOGImage() {
+  // Generate image on copy
+  function generateImage() {
     const trackCard: HTMLDivElement = document
       .getElementById("splist-card")
       ?.cloneNode(true) as HTMLDivElement;
+    console.log(trackCard);
+
     const copyButton: HTMLButtonElement = document
       .getElementById("copyButton")
       ?.cloneNode(true) as HTMLButtonElement;
 
     trackCard?.removeChild(copyButton);
 
-    fetch("/api/og-image", {
+    console.log(trackCard);
+
+    fetch("/api/image", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -138,11 +144,12 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
     })
       .then((res) => {
         if (res.ok) {
+          // TODO: Show a toast that the image was copied
         }
       })
       .catch((err) => {
         console.error(err);
-        // Show a toast that something went wrong
+        // TODO: Show a toast that something went wrong
       });
   }
 
@@ -167,7 +174,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           <CopyButton
             id="copyButton"
             className="absolute top-6 right-6"
-            onClick={() => generateOGImage}
+            onClick={() => generateImage}
           >
             Copy to Clipboard
           </CopyButton>
@@ -175,7 +182,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           {/* Header */}
           <div className="flex items-center gap-4">
             <div>
-              <Image width={80} height={80} src="/splist-logo.png" alt="splist logo" />
+              <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -189,8 +196,14 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           </div>
           {/* Table */}
           <div className="flex gap-8">
-            <ol className="flex flex-col gap-4">{artistTable}</ol>
-            <ol className="flex flex-col gap-4 ">{trackTable}</ol>
+            <div className="flex flex-col gap-4">
+              <h3 className="opacity-80 text-lg">Top Artists</h3>
+              <ol className="flex flex-col gap-4">{artistTable}</ol>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="opacity-80 text-lg">Top Songs</h3>
+              <ol className="flex flex-col gap-4 ">{trackTable}</ol>
+            </div>
           </div>
         </div>
       </section>

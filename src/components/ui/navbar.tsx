@@ -9,7 +9,6 @@ interface INavbarProps {
 }
 
 export default function Navbar(props: INavbarProps) {
-  console.log(props);
   return (
     <div className="flex flex-col gap-8">
       <nav className="text-lg flex justify-between">
