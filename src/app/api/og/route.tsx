@@ -10,43 +10,47 @@ export async function POST(request: Request) {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
+  const HOST =
+    process.env.NODE_ENV === "production" ? "https://splist.vercel.app" : "http://localhost:3000";
+
   const body = await request.json();
   const { topArtists, topTracks } = body;
 
   // Generate a table for the artists
   const artistTable = topArtists?.map((artist: Artist, index: number) => {
     return (
-      <>
-        <li key={"artist " + artist.id} tw="h-[50px] flex items-center gap-4">
-          <span>{index + 1}</span>
-          <div tw="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
-            <img
-              tw="max-w-[100%]"
-              height={artist.images[2].height}
-              width={artist.images[2].width}
-              src={artist.images[2].url}
-              alt={artist.name + " image"}
-            />
-          </div>
+      <li
+        key={"artist " + artist.id}
+        style={{ gap: "16px" }}
+        tw="h-[50px] max-w-[270px] flex items-center"
+      >
+        <span>{index + 1}</span>
+        <div
+          style={{ overflow: "hidden", borderRadius: "50%" }}
+          tw="flex justify-center items-center w-[50px] h-[50px]"
+        >
+          <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
+        </div>
 
-          <span>{artist.name}</span>
-        </li>
-      </>
+        <span tw="truncate max-w-[167px]">{artist.name}</span>
+      </li>
     );
   });
 
   // Generate a table for the artists
   const trackTable = topTracks?.map((track: Track, index: number) => {
     return (
-      <>
-        <li key={"track " + track.id} tw="h-[50px] flex items-center gap-4">
-          <span>{index + 1}</span>
-          <div tw="flex flex-col">
-            <span>{track.name}</span>
-            <span tw="opacity-80 text-xs">{track.artists[0].name}</span>
-          </div>
-        </li>
-      </>
+      <li
+        key={"track " + track.id}
+        style={{ gap: "16px" }}
+        tw="h-[50px] max-w-[270px] flex items-center"
+      >
+        <span>{index + 1}</span>
+        <div tw="flex flex-col">
+          <span tw="truncate max-w-[270px]">{track.name}</span>
+          <span tw="opacity-80 text-xs truncate max-w-[270px]">{track.artists[0].name}</span>
+        </div>
+      </li>
     );
   });
 
@@ -55,7 +59,55 @@ export async function POST(request: Request) {
   try {
     return new ImageResponse(
       (
-        <div>hello world</div>
+        <div
+          style={{
+            gap: "32px",
+          }}
+          tw="bg-[rgb(10 10 10)] text-white h-full relative flex flex-col rounded-xl p-12"
+        >
+          {/* Header */}
+          <div
+            style={{
+              gap: "16px",
+            }}
+            tw="flex items-center gap-4"
+          >
+            <img
+              style={{ width: "80px", height: "80px" }}
+              src={`${HOST}/splist-logo.png`}
+              alt="splist logo"
+            />
+
+            <div
+              style={{
+                gap: "8px",
+              }}
+              tw="flex flex-col"
+            >
+              <div tw="text-3xl md:text-4xl">Splist</div>
+              <div>https://splist.com</div>
+            </div>
+          </div>
+          {/* Date information */}
+          <div tw="flex text-xl opacity-80">
+            Past four weeks as of {month}/{day}/{year}
+          </div>
+          {/* Table */}
+          <div style={{ gap: "32px" }} tw="flex">
+            <div style={{ gap: "8px" }} tw="flex flex-col">
+              <h3 tw="opacity-80 text-lg">Top Artists</h3>
+              <ol key={"artistTable"} style={{ gap: "16px" }} tw="flex flex-col">
+                {artistTable}
+              </ol>
+            </div>
+            <div style={{ gap: "8px" }} tw="flex flex-col">
+              <h3 tw="opacity-80 text-lg">Top Songs</h3>
+              <ol key={"trackTable"} style={{ gap: "16px" }} tw="flex flex-col ">
+                {trackTable}
+              </ol>
+            </div>
+          </div>
+        </div>
       )
     );
   } catch (e: any) {

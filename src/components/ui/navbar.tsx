@@ -18,10 +18,10 @@ export default function Navbar(props: INavbarProps) {
         </div>
         {props.showSignOut && (
           <div className="flex items-center justify-end md:gap-12 gap-4">
-            <div className="flex gap-2 items-center">
+            <a href="https://github.com/maxdemaio/splist" className="flex gap-2 items-center underline transition-all duration-300 hover:opacity-80">
               <Icons.github />
               <span className="hidden md:flex">GitHub</span>
-            </div>
+            </a>
             {props.showSignOut && props.userName && (
               <div className="hidden lg:flex items-center justify-center gap-4">
                 {props.userImage ? (
