@@ -10,3 +10,9 @@
 ## Figma
 
 [https://www.figma.com/design/K8bt4A940oYXpTfiilwLqe/splist?node-id=0-1&t=vZohXVzQ5JeeB7l8-1](https://www.figma.com/design/K8bt4A940oYXpTfiilwLqe/splist?node-id=0-1&t=vZohXVzQ5JeeB7l8-1)
+
+
+## TODO
+
+- handle when topTracks or topArtists are empty (display - "not enough data")
+- loading state for the copy button to show it's still loading
