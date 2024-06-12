@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     // gap-8 same as mobi navbar gap
-    <main className="flex flex-col gap-8 md:p-12 p-6">
+    <main className="flex flex-col gap-8">
       <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
       <SpotifySearch sdk={sdk} toast={toast} />
       <div className="w-full flex justify-center">

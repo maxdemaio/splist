@@ -84,13 +84,15 @@ export async function POST(request: Request) {
 
   try {
     return new ImageResponse(
+      
       (
         <div
           style={{
             gap: "32px",
             backgroundColor: "rgb(10, 10, 10)",
+            borderRadius: "12px"
           }}
-          tw="text-white h-full relative flex flex-col rounded-xl p-12"
+          tw="text-white h-full flex flex-col p-12"
         >
           {/* Header */}
           <div
@@ -135,7 +137,11 @@ export async function POST(request: Request) {
             </div>
           </div>
         </div>
-      )
+      ),
+      {
+        width: 522,
+        height: 630,
+      }
     );
   } catch (e: any) {
     return new Response("Failed to generate image.", { status: 500 });

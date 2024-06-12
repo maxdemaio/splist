@@ -12,7 +12,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html className="dark" lang="en">
       <AuthSessionProvider session={session}>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className + " md:p-12 p-6"}>{children}</body>
       </AuthSessionProvider>
     </html>
   );

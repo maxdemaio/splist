@@ -6,7 +6,7 @@ import MadeBy from "./MadeBy";
 
 export default function SignIn() {
   return (
-    <main className="flex flex-col gap-8 p-6 md:p-12">
+    <main className="flex flex-col gap-8">
       <Navbar />
       <div className="flex justify-center">
         <Card className="w-[350px]">
