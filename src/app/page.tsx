@@ -97,7 +97,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
   const artistTable = topArtists?.items?.map((artist, index) => {
     return (
       <>
-        <li key={artist.id} className="flex items-center gap-4">
+        <li key={artist.id} className="h-[50px] flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
             <img
@@ -119,11 +119,11 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
   const trackTable = topTracks?.items?.map((track, index) => {
     return (
       <>
-        <li key={track.id} className="flex items-center gap-4">
+        <li key={track.id} className="h-[50px] flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="flex flex-col">
-          <span>{track.name}</span>
-          <span className="opacity-80 text-xs">{track.artists[0].name}</span>
+            <span>{track.name}</span>
+            <span className="opacity-80 text-xs">{track.artists[0].name}</span>
           </div>
         </li>
       </>
@@ -182,9 +182,10 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
             Past four weeks as of {month}/{day}/{year}
           </div>
           {/* Table */}
-          <ol className="grid grid-cols-2 gap-x-8 gap-y-4">
-            {artistsTracksTable}
-          </ol>
+          <div className="flex gap-8">
+            <ol className="flex flex-col gap-4">{artistTable}</ol>
+            <ol className="flex flex-col gap-4 ">{trackTable}</ol>
+          </div>
         </div>
       </section>
     </>
