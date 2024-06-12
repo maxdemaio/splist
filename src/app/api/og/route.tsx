@@ -36,9 +36,8 @@ export async function POST(request: Request) {
 
         <span
           style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
+            lineClamp: 2,
+            display: "block"
           }}
           tw="max-w-[167px]"
         >

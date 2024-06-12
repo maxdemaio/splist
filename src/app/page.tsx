@@ -68,13 +68,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   // Generate a table for the artists
   const artistTable = topArtists?.items?.map((artist, index) => {
     return (
-      <li key={"artist " + artist.id} className="h-[50px] max-w-[270px] flex items-center gap-4">
+      <li key={"artist " + artist.id} className="h-[50px] w-[270px] flex items-center gap-4">
         <span>{index + 1}</span>
         <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
           <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
         </div>
-
-        <span className="truncate max-w-[167px]">{artist.name}</span>
+        <span className="max-w-[167px] line-clamp-2">{artist.name}</span>
       </li>
     );
   });
@@ -82,11 +81,11 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   // Generate a table for the artists
   const trackTable = topTracks?.items?.map((track, index) => {
     return (
-      <li key={"track " + track.id} className="h-[50px] max-w-[270px] flex items-center gap-4">
+      <li key={"track " + track.id} className="h-[50px] w-[270px] flex items-center gap-4">
         <span>{index + 1}</span>
         <div className="flex flex-col">
-          <span className="truncate max-w-[270px]">{track.name}</span>
-          <span className="opacity-80 text-xs truncate max-w-[270px]">{track.artists[0].name}</span>
+          <span className="truncate max-w-[200px]"> {track.name}</span>
+          <span className="opacity-80 text-xs truncate max-w-[200px]">{track.artists[0].name}</span>
         </div>
       </li>
     );
