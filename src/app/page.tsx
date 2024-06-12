@@ -106,7 +106,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
       copyButton.parentNode?.removeChild(copyButton);
     }
 
-    console.log("splist Card", splistCard)
+    console.log("splist Card", splistCard);
 
     fetch("/api/og", {
       method: "POST",
@@ -114,7 +114,9 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        html: splistCard,
+        html: splistCard.outerHTML,
+        topArtists: topArtists.items,
+        topTracks: topTracks.items,
       }),
     })
       .then((res) => {
