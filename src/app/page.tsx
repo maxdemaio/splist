@@ -11,36 +11,13 @@ import { CopyButton } from "@/components/ui/copy-button";
 // TODO: add later
 import Image from "next/image";
 import { ImageResponse } from "next/og";
+import SignIn from "@/components/SignIn";
 
 export default function Home() {
   const session = useSession();
 
   if (!session || session.status !== "authenticated") {
-    return (
-      <main className="flex flex-col gap-8 p-6 md:p-12">
-        <Navbar />
-        <div className="flex p-24 justify-center">
-          <Card className="w-[350px]">
-            <CardHeader>
-              <CardTitle>Spotify Web API Typescript SDK in Next.js</CardTitle>
-              <CardDescription>
-                Share your top artists and tracks with your friends!
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center">
-                <button
-                  className="border border-foreground p-4 rounded"
-                  onClick={() => signIn("spotify")}
-                >
-                  Sign in with Spotify
-                </button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-    );
+    return <SignIn />;
   }
 
   return (
@@ -119,24 +96,25 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
   });
 
   // Generate image on copy
-  function generateImage() {
-    const trackCard: HTMLDivElement = document
+  async function getAndCopyImage() {
+    const splistCard: HTMLDivElement = document
       .getElementById("splist-card")
       ?.cloneNode(true) as HTMLDivElement;
-    console.log(trackCard);
 
-    const copyButton = trackCard?.getElementById("copyButton")
-    trackCard?.removeChild(copyButton);
+    const copyButton = splistCard.querySelector("#copy-button");
+    if (copyButton) {
+      copyButton.parentNode?.removeChild(copyButton);
+    }
 
-    console.log(trackCard);
+    console.log("splist Card", splistCard)
 
-    fetch("/api/image", {
+    fetch("/api/og", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        html: trackCard,
+        html: splistCard,
       }),
     })
       .then((res) => {
@@ -150,16 +128,6 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
       });
   }
 
-  function copyToClipboard(payload: ImageResponse) {
-    payload.blob().then((blob) => {
-      navigator.clipboard.write([
-        new ClipboardItem({
-          "image/png": blob,
-        }),
-      ]);
-    });
-  }
-
   return (
     <>
       <section className="mx-auto">
@@ -168,11 +136,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           className="relative gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-12"
           aria-label="Splist Card"
         >
-          <CopyButton
-            id="copyButton"
-            className="absolute top-6 right-6"
-            onClick={generateImage}
-          >
+          <CopyButton id="copy-button" className="absolute top-6 right-6" onClick={getAndCopyImage}>
             Copy to Clipboard
           </CopyButton>
 
@@ -195,11 +159,15 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           <div className="flex gap-8">
             <div className="flex flex-col gap-4">
               <h3 className="opacity-80 text-lg">Top Artists</h3>
-              <ol key={"artistTable"} className="flex flex-col gap-4">{artistTable}</ol>
+              <ol key={"artistTable"} className="flex flex-col gap-4">
+                {artistTable}
+              </ol>
             </div>
             <div className="flex flex-col gap-4">
               <h3 className="opacity-80 text-lg">Top Songs</h3>
-              <ol key={"trackTable"} className="flex flex-col gap-4 ">{trackTable}</ol>
+              <ol key={"trackTable"} className="flex flex-col gap-4 ">
+                {trackTable}
+              </ol>
             </div>
           </div>
         </div>
