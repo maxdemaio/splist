@@ -85,7 +85,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
   const artistTable = topArtists?.items?.map((artist, index) => {
     return (
       <>
-        <li key={artist.id} className="h-[50px] flex items-center gap-4">
+        <li key={"artist " + artist.id} className="h-[50px] flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="w-[50px] h-[50px] mask inline-block rounded-[50%] overflow-hidden ">
             <img
@@ -107,7 +107,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
   const trackTable = topTracks?.items?.map((track, index) => {
     return (
       <>
-        <li key={track.id} className="h-[50px] flex items-center gap-4">
+        <li key={"track " + track.id} className="h-[50px] flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="flex flex-col">
             <span>{track.name}</span>
@@ -125,10 +125,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
       ?.cloneNode(true) as HTMLDivElement;
     console.log(trackCard);
 
-    const copyButton: HTMLButtonElement = document
-      .getElementById("copyButton")
-      ?.cloneNode(true) as HTMLButtonElement;
-
+    const copyButton = trackCard?.getElementById("copyButton")
     trackCard?.removeChild(copyButton);
 
     console.log(trackCard);
@@ -174,7 +171,7 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           <CopyButton
             id="copyButton"
             className="absolute top-6 right-6"
-            onClick={() => generateImage}
+            onClick={generateImage}
           >
             Copy to Clipboard
           </CopyButton>
@@ -198,11 +195,11 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
           <div className="flex gap-8">
             <div className="flex flex-col gap-4">
               <h3 className="opacity-80 text-lg">Top Artists</h3>
-              <ol className="flex flex-col gap-4">{artistTable}</ol>
+              <ol key={"artistTable"} className="flex flex-col gap-4">{artistTable}</ol>
             </div>
             <div className="flex flex-col gap-4">
               <h3 className="opacity-80 text-lg">Top Songs</h3>
-              <ol className="flex flex-col gap-4 ">{trackTable}</ol>
+              <ol key={"trackTable"} className="flex flex-col gap-4 ">{trackTable}</ol>
             </div>
           </div>
         </div>
