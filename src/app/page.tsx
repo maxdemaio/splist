@@ -119,9 +119,16 @@ function SpotifySearch({ sdk }: { sdk: SpotifyApi }) {
         topTracks: topTracks.items,
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res.ok) {
           // TODO: Show a toast that the image was copied
+          const blob = await res.blob();
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              [blob.type]: blob,
+            }),
+          ]);
+          
         }
       })
       .catch((err) => {
