@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const year = date.getFullYear();
 
   const HOST =
-    process.env.NODE_ENV === "production" ? "https://splist.vercel.app" : "http://localhost:3000";
+    process.env.NODE_ENV === "production" ? "https://splist-lac.vercel.app" : "http://localhost:3000";
 
   const body = await request.json();
   const { topArtists, topTracks } = body;
