@@ -83,8 +83,6 @@ export async function POST(request: Request) {
     );
   });
 
-  console.log("artistTable", artistTable);
-
   try {
     return new ImageResponse(
       (
