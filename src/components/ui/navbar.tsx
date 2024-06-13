@@ -11,10 +11,6 @@ interface INavbarProps {
 export default function Navbar(props: INavbarProps) {
   return (
     <nav className="gap-8 items-center text-base md:text-lg flex-wrap flex justify-between">
-      <div className="flex gap-4">
-        <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
-        <div className="flex items-center text-3xl md:text-4xl">Splist</div>
-      </div>
       {props.showSignOut && props.userName && (
         <div className="flex items-center justify-center gap-4">
           {props.userImage ? (
