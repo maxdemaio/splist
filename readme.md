@@ -16,3 +16,7 @@
 
 - handle when topTracks or topArtists are empty (display - "not enough data")
 - loading state for the copy button to show it's still loading
+
+## Notes
+
+- image top tracks gets cut off if the width of contents ends up being to long for the overall width (solution is to just increase overall width)
