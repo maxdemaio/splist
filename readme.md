@@ -16,5 +16,3 @@
 
 - handle when topTracks or topArtists are empty (display - "not enough data")
 - loading state for the copy button to show it's still loading
-- check mobile, maybe share if clipboard doesn't work (navigator.share browser native)
-- restest long names on right side
