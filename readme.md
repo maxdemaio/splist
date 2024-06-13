@@ -19,6 +19,7 @@
 - clickable items in splist that lead back to artist/track
 - blue heart for manpreeet
 - hover stuff and logic for heart like vercel.lol
+- get some OG stuff going like wtf
 
 ## Notes
 
