@@ -126,10 +126,10 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
             });
           } catch (err) {
             console.error(err);
-            fallbackCopy(blob);
+            fallbackShare(blob);
           }
         } else {
-          fallbackCopy(blob);
+          fallbackShare(blob);
         }
       } else {
         throw new Error("Failed to fetch the image.");
@@ -144,61 +144,38 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
     }
   }
 
-  // Fallback method for copying
-  function fallbackCopy(blob) {
-    const url = URL.createObjectURL(blob);
+  // Fallback method using the Web Share API
+  function fallbackShare(blob: Blob) {
+    if (navigator.share) {
+      const file = new File([blob], "splist.png", { type: blob.type });
 
-    // Create a hidden image element to display the image
-    const img = document.createElement("img");
-    img.src = url;
-    img.style.position = "absolute";
-    img.style.top = "-9999px";
-    document.body.appendChild(img);
-
-    // Create a canvas element
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    img.onload = () => {
-      // Set the canvas dimensions to the image dimensions
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      // Draw the image onto the canvas
-      ctx.drawImage(img, 0, 0);
-
-      // Convert the canvas content to a data URL
-      const dataURL = canvas.toDataURL("image/png");
-
-      // Create a blob from the data URL
-      const byteString = atob(dataURL.split(",")[1]);
-      const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      const newBlob = new Blob([ab], { type: mimeString });
-
-      // Create a temporary link element
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(newBlob);
-      link.download = "image.png";
-
-      // Programmatically click the link to trigger the download
-      link.click();
-
-      // Clean up
-      document.body.removeChild(img);
-      URL.revokeObjectURL(url);
-
-      // Display a toast with instructions for manual copy
+      navigator
+        .share({
+          title: "Share Image",
+          text: "Check out my Splist!",
+          files: [file],
+        })
+        .then(() => {
+          toast({
+            title: "Image Shared",
+            description: "The image has been shared successfully!",
+          });
+        })
+        .catch((err) => {
+          console.error("Share failed", err);
+          toast({
+            title: "Image Share Stopped",
+            description: "Oops, the image failed to be shared!",
+            variant: "destructive",
+          });
+        });
+    } else {
       toast({
-        title: "Copy Image",
-        description: "Tap and hold the image to copy or save it.",
-        variant: "info",
+        title: "Share Not Supported",
+        description: "Your browser does not support the Web Share API.",
+        variant: "destructive",
       });
-    };
+    }
   }
 
   return (
