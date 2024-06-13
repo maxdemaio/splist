@@ -97,40 +97,108 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
   // Generate image on copy
   async function getAndCopyImage() {
-    fetch("/api/og", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        topArtists: topArtists.items,
-        topTracks: topTracks.items,
-      }),
-    })
-      .then(async (res) => {
-        if (res.ok) {
-          // TODO: Show a toast that the image was copied
-          const blob = await res.blob();
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              [blob.type]: blob,
-            }),
-          ]);
-
-          toast({
-            title: "Image Copied",
-            description: "The image has been copied to your clipboard!",
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast({
-          title: "Image Copy Failed",
-          description: "Oops, the image failed to be copied to your clipboard!",
-          variant: "destructive",
-        });
+    try {
+      const res = await fetch("/api/og", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topArtists: topArtists.items,
+          topTracks: topTracks.items,
+        }),
       });
+
+      if (res.ok) {
+        const blob = await res.blob();
+
+        // Check for Clipboard API support
+        if (navigator.clipboard && navigator.clipboard.write) {
+          try {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                [blob.type]: blob,
+              }),
+            ]);
+            toast({
+              title: "Image Copied",
+              description: "The image has been copied to your clipboard!",
+            });
+          } catch (err) {
+            console.error(err);
+            fallbackCopy(blob);
+          }
+        } else {
+          fallbackCopy(blob);
+        }
+      } else {
+        throw new Error("Failed to fetch the image.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Image Copy Failed",
+        description: "Oops, the image failed to be copied to your clipboard!",
+        variant: "destructive",
+      });
+    }
+  }
+
+  // Fallback method for copying
+  function fallbackCopy(blob) {
+    const url = URL.createObjectURL(blob);
+
+    // Create a hidden image element to display the image
+    const img = document.createElement("img");
+    img.src = url;
+    img.style.position = "absolute";
+    img.style.top = "-9999px";
+    document.body.appendChild(img);
+
+    // Create a canvas element
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    img.onload = () => {
+      // Set the canvas dimensions to the image dimensions
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Draw the image onto the canvas
+      ctx.drawImage(img, 0, 0);
+
+      // Convert the canvas content to a data URL
+      const dataURL = canvas.toDataURL("image/png");
+
+      // Create a blob from the data URL
+      const byteString = atob(dataURL.split(",")[1]);
+      const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const newBlob = new Blob([ab], { type: mimeString });
+
+      // Create a temporary link element
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(newBlob);
+      link.download = "image.png";
+
+      // Programmatically click the link to trigger the download
+      link.click();
+
+      // Clean up
+      document.body.removeChild(img);
+      URL.revokeObjectURL(url);
+
+      // Display a toast with instructions for manual copy
+      toast({
+        title: "Copy Image",
+        description: "Tap and hold the image to copy or save it.",
+        variant: "info",
+      });
+    };
   }
 
   return (
@@ -154,7 +222,11 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
             <div>https://splist-lac.vercel.app/</div>
           </div>
         </div>
-        <CopyButton id="copy-button" className="hidden sm:flex absolute top-6 right-6" onClick={getAndCopyImage}>
+        <CopyButton
+          id="copy-button"
+          className="hidden sm:flex absolute top-6 right-6"
+          onClick={getAndCopyImage}
+        >
           Copy to Clipboard
         </CopyButton>
         {/* Date information */}
