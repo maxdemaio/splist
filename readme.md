@@ -16,6 +16,9 @@
 
 - handle when topTracks or topArtists are empty (display - "not enough data")
 - loading state for the copy button to show it's still loading
+- clickable items in splist that lead back to artist/track
+- blue heart for manpreeet
+- hover stuff and logic for heart like vercel.lol
 
 ## Notes
 
