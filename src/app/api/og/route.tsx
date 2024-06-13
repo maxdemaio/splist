@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         <span
           style={{
             lineClamp: 2,
-            display: "block"
+            display: "block",
           }}
           tw="max-w-[167px]"
         >
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
-            tw=" max-w-[270px]"
+            tw="max-w-[167px]"
           >
             {track.name}
           </span>
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
-            tw="opacity-80 text-xs max-w-[270px]"
+            tw="opacity-80 text-xs max-w-[167px]"
           >
             {track.artists[0].name}
           </span>
@@ -84,13 +84,12 @@ export async function POST(request: Request) {
 
   try {
     return new ImageResponse(
-      
       (
         <div
           style={{
             gap: "32px",
             backgroundColor: "rgb(10, 10, 10)",
-            borderRadius: "12px"
+            borderRadius: "12px",
           }}
           tw="text-white h-full flex flex-col p-12"
         >

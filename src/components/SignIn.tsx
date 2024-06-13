@@ -21,6 +21,9 @@ export default function SignIn() {
             <CardDescription className="text-lg">
               Share your top artists and tracks with your friends!
             </CardDescription>
+            <CardDescription className="text-lg">
+              (Currently in closed beta)
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-center">
