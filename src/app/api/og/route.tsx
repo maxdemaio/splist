@@ -38,8 +38,9 @@ export async function POST(request: Request) {
           style={{
             lineClamp: 2,
             display: "block",
+            width: "167px",
           }}
-          tw="max-w-[167px]"
+          tw="w-[167px]"
         >
           {artist.name}
         </span>
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
       <li
         key={"track " + track.id}
         style={{ gap: "16px" }}
-        tw="h-[50px] max-w-[270px] flex items-center"
+        tw="h-[50px] w-[270px] flex items-center"
       >
         <span>{index + 1}</span>
         <div tw="flex flex-col">
@@ -62,8 +63,8 @@ export async function POST(request: Request) {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
+              width: "167px",
             }}
-            tw="max-w-[167px]"
           >
             {track.name}
           </span>
@@ -138,7 +139,7 @@ export async function POST(request: Request) {
         </div>
       ),
       {
-        width: 522,
+        width: 578,
         height: 630,
       }
     );
