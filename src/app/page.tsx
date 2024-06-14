@@ -71,12 +71,17 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   // Generate a table for the artists
   const artistTable = topArtists?.items?.map((artist, index) => {
     return (
-      <li key={"artist " + artist.id} className="h-[50px] w-[270px] flex items-center gap-4">
-        <span>{index + 1}</span>
-        <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
-          <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
-        </div>
-        <span className="w-[167px] line-clamp-2">{artist.name}</span>
+      <li
+        key={"artist " + artist.id}
+        className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
+      >
+        <a href={artist.external_urls.spotify} className="flex items-center gap-4">
+          <span>{index + 1}</span>
+          <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
+            <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
+          </div>
+          <span className="w-[167px] line-clamp-2">{artist.name}</span>
+        </a>
       </li>
     );
   });
@@ -84,12 +89,17 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   // Generate a table for the artists
   const trackTable = topTracks?.items?.map((track, index) => {
     return (
-      <li key={"track " + track.id} className="h-[50px] w-[270px] flex items-center gap-4">
-        <span>{index + 1}</span>
-        <div className="flex flex-col">
-          <span className="truncate w-[200px]"> {track.name}</span>
-          <span className="opacity-80 text-xs truncate w-[167px]">{track.artists[0].name}</span>
-        </div>
+      <li
+        key={"track " + track.id}
+        className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
+      >
+        <a href={track.external_urls.spotify} className="flex items-center gap-4">
+          <span>{index + 1}</span>
+          <div className="flex flex-col">
+            <span className="truncate w-[200px]"> {track.name}</span>
+            <span className="opacity-80 text-xs truncate w-[167px]">{track.artists[0].name}</span>
+          </div>
+        </a>
       </li>
     );
   });
