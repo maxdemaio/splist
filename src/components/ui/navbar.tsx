@@ -28,23 +28,13 @@ export default function Navbar(props: INavbarProps) {
         </div>
       )}
       {props.showSignOut && (
-        <div className="flex items-center justify-end md:gap-12 gap-4">
-          <a
-            href="https://github.com/maxdemaio/splist"
-            className="flex gap-2 items-center underline transition-all duration-300 hover:opacity-80"
-          >
-            <Icons.github />
-            <span className="hidden sm:flex">GitHub</span>
-          </a>
-          <Button
-            size={"lg"}
-            variant={"secondary"}
-            className="text-base md:text-lg"
-            onClick={() => signOut()}
-          >
-            Sign out
-          </Button>
-        </div>
+        <Button
+          size={"lg"}
+          variant={"secondary"}
+          onClick={() => signOut()}
+        >
+          Sign out
+        </Button>
       )}
     </nav>
   );

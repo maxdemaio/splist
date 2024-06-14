@@ -26,7 +26,7 @@ export default function SignIn() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-center">
+            <div className="flex gap-4 flex-col items-center justify-center">
               <Button size={"lg"} onClick={() => signIn("spotify")}>
                 Sign in with Spotify
               </Button>
@@ -34,9 +34,7 @@ export default function SignIn() {
           </CardContent>
         </Card>
       </div>
-      <div className="w-full flex justify-center">
-        <MadeBy />
-      </div>
+      <MadeBy />
     </main>
   );
 }

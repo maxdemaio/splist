@@ -29,9 +29,7 @@ export default function Home() {
     <main className="flex flex-col gap-8">
       <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
       <SpotifySearch sdk={sdk} toast={toast} />
-      <div className="w-full flex justify-center">
-        <MadeBy />
-      </div>
+      <MadeBy />
       <Toaster />
     </main>
   );
