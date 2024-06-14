@@ -112,70 +112,76 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
       if (res.ok) {
         const blob = await res.blob();
 
-        // Check for Clipboard API support
-        if (navigator.clipboard && navigator.clipboard.write) {
-          try {
-            await navigator.clipboard.write([
-              new ClipboardItem({
-                [blob.type]: blob,
-              }),
-            ]);
-            toast({
-              title: "Image Copied",
-              description: "The image has been copied to your clipboard!",
-            });
-          } catch (err) {
-            console.error(err);
-            fallbackShare(blob);
-          }
+        // Check for navigator API support
+        if (navigator?.share) {
+          await shareImage(blob);
+        } else if (navigator?.clipboard?.write) {
+          await copyImageToClipboard(blob);
         } else {
-          fallbackShare(blob);
+          handleUnsupportedAPI();
         }
       } else {
         throw new Error("Failed to fetch the image.");
       }
     } catch (err) {
       console.error(err);
-      toast({
-        title: "Image Copy Failed",
-        description: "Oops, the image failed to be copied to your clipboard!",
-        variant: "destructive",
-      });
+      showToast(
+        "Image Copy Failed",
+        "Oops, the image failed to be copied to your clipboard!",
+        "destructive"
+      );
     }
   }
 
-  // Fallback method using the Web Share API
-  function fallbackShare(blob: Blob) {
-    if (navigator.share) {
-      const file = new File([blob], "splist.png", { type: blob.type });
+  async function shareImage(blob: Blob) {
+    const file = new File([blob], "splist.png", { type: blob.type });
 
-      navigator
-        .share({
-          title: "Share Image",
-          text: "Check out my Splist!",
-          files: [file],
-        })
-        .then(() => {
-          toast({
-            title: "Image Shared",
-            description: "The image has been shared successfully!",
-          });
-        })
-        .catch((err) => {
-          console.error("Share failed", err);
-          toast({
-            title: "Image Share Stopped",
-            description: "Oops, the image failed to be shared!",
-            variant: "destructive",
-          });
-        });
-    } else {
-      toast({
-        title: "Share Not Supported",
-        description: "Your browser does not support the Web Share API.",
-        variant: "destructive",
+    try {
+      await navigator.share({
+        title: "Share Image",
+        text: "Check out my Splist!",
+        files: [file],
       });
+      showToast("Image Shared", "The image has been shared successfully!");
+    } catch (err) {
+      console.error("Share failed", err);
+      showToast("Image Share Stopped", "Oops, the image failed to be shared!", "destructive");
     }
+  }
+
+  async function copyImageToClipboard(blob: Blob) {
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+      showToast("Image Copied", "The image has been copied to your clipboard!");
+    } catch (err) {
+      console.error("Clipboard write failed", err);
+      showToast(
+        "Image Copy Failed",
+        "Oops, the image failed to be copied to your clipboard!",
+        "destructive"
+      );
+    }
+  }
+
+  function handleUnsupportedAPI() {
+    console.error("Share not supported");
+    showToast(
+      "Share Not Supported",
+      "Your browser does not support the Web Share/Clipboard API.",
+      "destructive"
+    );
+  }
+
+  function showToast(title: string, description: string, variant = "default") {
+    toast({
+      title,
+      description,
+      variant,
+    });
   }
 
   return (
