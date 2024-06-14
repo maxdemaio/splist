@@ -127,9 +127,9 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         const blob = await res.blob();
 
         // Check for navigator API support
-        if (navigator?.share) {
+        if (typeof navigator?.share === "function") {
           await shareImage(blob);
-        } else if (navigator?.clipboard?.write) {
+        } else if (typeof navigator?.clipboard?.write === "function") {
           await copyImageToClipboard(blob);
         } else {
           handleUnsupportedAPI();
