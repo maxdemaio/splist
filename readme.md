@@ -15,7 +15,6 @@
 ## TODO
 
 - handle when topTracks or topArtists are empty (display - "not enough data")
-- get some OG stuff going like wtf
 - actually design a logo (omegalul)
 
 ## Notes
