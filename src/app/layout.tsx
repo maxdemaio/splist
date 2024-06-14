@@ -11,18 +11,12 @@ export const metadata = {
     title: 'Splist',
     description: 'Share your top artists and songs with friends!',
     url: 'https://splist-lac.vercel.app/',
-    siteName: 'Next.js',
+    siteName: 'Splist',
     images: [
       {
-        url: 'https://nextjs.org/og.png', // Must be an absolute URL
-        width: 800,
-        height: 600,
-      },
-      {
-        url: 'https://nextjs.org/og-alt.png', // Must be an absolute URL
-        width: 1800,
-        height: 1600,
-        alt: 'My custom alt',
+        url: 'https://splist-lac.vercel.app/og.png', // Must be an absolute URL
+        width: 1200,
+        height: 630,
       },
     ],
     locale: 'en_US',
