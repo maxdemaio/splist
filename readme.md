@@ -1,5 +1,7 @@
 # splist
 
+![splist og](./public/og.png)
+
 ## Developer Setup
 
 1. Go to spotify's developer dashboard and create an app for the web API - [https://developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
