@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Skeleton } from "@/components/ui/skeleton";
 import MadeBy from "@/components/MadeBy";
+import { Icons } from "@/components/icons";
 
 export default function Home() {
   const session = useSession();
@@ -42,6 +43,8 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   const limit = 5;
+
+  const [loading, setLoading] = useState(false);
 
   const [topArtists, setTopArtists] = useState<Page<Artist>>({} as Page<Artist>);
 
@@ -97,6 +100,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
   // Generate image on copy
   async function getAndCopyImage() {
+    setLoading(true);
     try {
       const res = await fetch("/api/og", {
         method: "POST",
@@ -131,6 +135,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         "destructive"
       );
     }
+    setLoading(false);
   }
 
   async function shareImage(blob: Blob) {
@@ -187,8 +192,9 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <CopyButton id="copy-button" className="flex sm:hidden" onClick={getAndCopyImage}>
-          Copy to Clipboard
+        <CopyButton id="copy-button" className="flex gap-2 sm:hidden" onClick={getAndCopyImage}>
+          <span>Copy to Clipboard</span>
+          {loading ? <Icons.loading /> : <Icons.copy />}
         </CopyButton>
       </div>
 
@@ -207,10 +213,11 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         </div>
         <CopyButton
           id="copy-button"
-          className="hidden sm:flex absolute top-6 right-6"
+          className="hidden gap-2 sm:flex absolute top-6 right-6"
           onClick={getAndCopyImage}
         >
-          Copy to Clipboard
+          <span>Copy to Clipboard</span>
+          {loading ? <Icons.loading /> : <Icons.copy />}
         </CopyButton>
         {/* Date information */}
         <div className="flex text-xl opacity-80">
