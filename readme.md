@@ -15,10 +15,7 @@
 ## TODO
 
 - handle when topTracks or topArtists are empty (display - "not enough data")
-- blue heart for manpreeet
-- hover stuff and logic for heart like vercel.lol
 - get some OG stuff going like wtf
-- add gh link to signin page and make consistent
 - actually design a logo (omegalul)
 
 ## Notes

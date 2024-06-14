@@ -123,12 +123,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
       if (res.ok) {
         const blob = await res.blob();
-
-        // Check for navigator API support
-        if (typeof navigator?.share === "function") {
-          await shareImage(blob);
-        } else if (typeof navigator?.clipboard?.write === "function") {
+        
+        // Check for navigator apis to copy image
+        if (typeof navigator?.clipboard?.write === "function") {
           await copyImageToClipboard(blob);
+        } else if (typeof navigator?.share === "function") {
+          await shareImage(blob);
         } else {
           handleUnsupportedAPI();
         }
