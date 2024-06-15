@@ -50,9 +50,16 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   const limit = 5;
+  const timeFrames: { [key: string]: "short_term" | "medium_term" | "long_term" } = {
+    "four weeks": "short_term",
+    "six months": "medium_term",
+    "one year": "long_term",
+  };
 
   const [loadingCopy, setLoadingCopy] = useState(false);
-  const [timeFrame, setTimeFrame] = useState('Four weeks');
+  const [loadingTopItems, setLoadingTopItems] = useState(true);
+
+  const [timeFrame, setTimeFrame] = useState("four weeks");
   const [topArtists, setTopArtists] = useState<Page<Artist>>({} as Page<Artist>);
   const [topTracks, setTopTracks] = useState<Page<Track>>({} as Page<Track>);
 
@@ -71,6 +78,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
       const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", "short_term", limit);
 
       setTopTracks(() => topTracks);
+      setLoadingTopItems(false);
     })();
   }, [sdk]);
 
@@ -126,6 +134,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         body: JSON.stringify({
           topArtists: topArtists.items,
           topTracks: topTracks.items,
+          timeFrame: timeFrame,
         }),
       });
 
@@ -205,8 +214,20 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
     });
   }
 
-  function handleSelectUpdate(value: string) {
+  async function handleSelectUpdate(value: string) {
+    setLoadingTopItems(true);
+
+    // Fetch new data
+    const timeFrame = timeFrames[value];
+    const topArtists: Page<Artist> = await sdk.currentUser.topItems("artists", timeFrame, limit);
+
+    setTopArtists(() => topArtists);
+
+    const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", timeFrame, limit);
+
+    setTopTracks(() => topTracks);
     setTimeFrame(value);
+    setLoadingTopItems(false);
   }
 
   return (
@@ -224,7 +245,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
-        <Select onValueChange={handleSelectUpdate} defaultValue='four weeks'>
+        <Select onValueChange={handleSelectUpdate} defaultValue="four weeks">
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Four weeks" />
           </SelectTrigger>
@@ -237,7 +258,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <CopyButton id="copy-button" className="flex gap-2" onClick={getAndCopyImage}>
+        <CopyButton
+          disabled={loadingCopy || loadingTopItems}
+          id="copy-button"
+          className="flex gap-2"
+          onClick={getAndCopyImage}
+        >
           <span>Copy to Clipboard</span>
           {loadingCopy ? <Icons.loading /> : <Icons.copy />}
         </CopyButton>

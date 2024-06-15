@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       : "http://localhost:3000";
 
   const body = await request.json();
-  const { topArtists, topTracks } = body;
+  const { topArtists, topTracks, timeFrame } = body;
 
   // Generate a table for the artists
   const artistTable = topArtists?.map((artist: Artist, index: number) => {
@@ -119,7 +119,7 @@ export async function POST(request: Request) {
           </div>
           {/* Date information */}
           <div tw="flex text-xl opacity-80">
-            Past four weeks as of {month}/{day}/{year}
+            Past {timeFrame} as of {month}/{day}/{year}
           </div>
           {/* Table */}
           <div style={{ gap: "32px" }} tw="flex">
