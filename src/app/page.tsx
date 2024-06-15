@@ -51,10 +51,9 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const year = date.getFullYear();
   const limit = 5;
 
-  const [loading, setLoading] = useState(false);
-
+  const [loadingCopy, setLoadingCopy] = useState(false);
+  const [timeFrame, setTimeFrame] = useState('Four weeks');
   const [topArtists, setTopArtists] = useState<Page<Artist>>({} as Page<Artist>);
-
   const [topTracks, setTopTracks] = useState<Page<Track>>({} as Page<Track>);
 
   useEffect(() => {
@@ -117,7 +116,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
   // Generate image on copy
   async function getAndCopyImage() {
-    setLoading(true);
+    setLoadingCopy(true);
     try {
       const res = await fetch("/api/og", {
         method: "POST",
@@ -152,7 +151,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         "destructive"
       );
     }
-    setLoading(false);
+    setLoadingCopy(false);
   }
 
   async function shareImage(blob: Blob) {
@@ -206,6 +205,10 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
     });
   }
 
+  function handleSelectUpdate(value: string) {
+    setTimeFrame(value);
+  }
+
   return (
     <div
       id="splist-card"
@@ -221,28 +224,28 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
-        <Select defaultValue='Four weeks'>
+        <Select onValueChange={handleSelectUpdate} defaultValue='four weeks'>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Four weeks" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Time frame</SelectLabel>
-              <SelectItem value="Four weeks">Four weeks</SelectItem>
-              <SelectItem value="Six months">Six months</SelectItem>
-              <SelectItem value="One year">One year</SelectItem>
+              <SelectItem value="four weeks">Four weeks</SelectItem>
+              <SelectItem value="six months">Six months</SelectItem>
+              <SelectItem value="one year">One year</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
         <CopyButton id="copy-button" className="flex gap-2" onClick={getAndCopyImage}>
           <span>Copy to Clipboard</span>
-          {loading ? <Icons.loading /> : <Icons.copy />}
+          {loadingCopy ? <Icons.loading /> : <Icons.copy />}
         </CopyButton>
       </div>
 
       {/* Date information */}
       <div className="flex text-xl opacity-80">
-        Past four weeks as of {month}/{day}/{year}
+        Past {timeFrame} as of {month}/{day}/{year}
       </div>
       {/* Table */}
       <div className="flex-col md:flex-row flex gap-8">
