@@ -89,7 +89,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         key={"artist " + artist.id}
         className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
       >
-        <a href={artist.external_urls.spotify} className="flex items-center gap-4">
+        <a href={artist.external_urls.spotify} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
             <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
@@ -107,7 +107,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         key={"track " + track.id}
         className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
       >
-        <a href={track.external_urls.spotify} className="flex items-center gap-4">
+        <a href={track.external_urls.spotify} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
           <span>{index + 1}</span>
           <div className="flex flex-col">
             <span className="truncate w-[200px]"> {track.name}</span>
