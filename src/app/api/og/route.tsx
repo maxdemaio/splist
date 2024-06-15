@@ -9,11 +9,6 @@ export async function POST(request: Request) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
-  const frames: {[key: string]: string} = {
-    "short_term": "four weeks",
-    "medium_term": "six months",
-    "long_term": "one year"
-  }
 
   const HOST =
     process.env.NODE_ENV === "production"
@@ -124,7 +119,7 @@ export async function POST(request: Request) {
           </div>
           {/* Date information */}
           <div tw="flex text-xl opacity-80">
-            Past {frames[timeFrame]} as of {month}/{day}/{year}
+            Past {timeFrame} as of {month}/{day}/{year}
           </div>
           {/* Table */}
           <div style={{ gap: "32px" }} tw="flex">

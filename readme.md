@@ -18,7 +18,6 @@
 
 - handle when topTracks or topArtists are empty (display - "not enough data")
 - actually design a logo (omegalul)
-- queryParam the select option (useEffect) when you change just update query params
 
 ## Notes
 

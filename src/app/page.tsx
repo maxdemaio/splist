@@ -25,9 +25,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { SearchTerm } from "@/lib/utils";
 
-type SearchTerm = "short_term" | "long_term" | "medium_term";
 const validTerms: SearchTerm[] = ["short_term", "long_term", "medium_term"];
+const frames: Record<SearchTerm, string> = {
+  "short_term": "four weeks",
+  "medium_term": "six months",
+  "long_term": "one year"
+}
 
 // Type guard function to check if a value is a valid SearchTerm
 function isValidSearchTerm(value: any): value is SearchTerm {
@@ -159,7 +164,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         body: JSON.stringify({
           topArtists: topArtists.items,
           topTracks: topTracks.items,
-          timeFrame: timeFrame,
+          timeFrame: frames[timeFrame],
         }),
       });
 
@@ -296,7 +301,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
       {/* Date information */}
       <div className="flex text-xl opacity-80">
-        Past {timeFrame} as of {month}/{day}/{year}
+        Past {frames[validatedSearch]} as of {month}/{day}/{year}
       </div>
       {/* Table */}
       <div className="flex-col md:flex-row flex gap-8">
