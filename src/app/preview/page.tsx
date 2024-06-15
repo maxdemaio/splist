@@ -51,12 +51,12 @@ const Preview = () => {
   if (isProd) return <div>this for dev bro, GTFO</div>
 
   return (
-    <div>
+    <div >
       <div suppressHydrationWarning className="hidden">
         {dateTime}
       </div>
       <h2 className="text-2xl">Preview of the dynamic image</h2>
-      {!imageUrl ? <p>Loading...</p> : <img src={imageUrl} alt="Preview" />}
+      {!imageUrl ? <p>Loading...</p> : <img className="bg-white p-2" src={imageUrl} alt="Preview" />}
     </div>
   );
 };
