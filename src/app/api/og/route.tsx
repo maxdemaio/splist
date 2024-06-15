@@ -90,7 +90,6 @@ export async function POST(request: Request) {
           style={{
             gap: "32px",
             backgroundColor: "rgb(10, 10, 10)",
-            borderRadius: "12px",
           }}
           tw="relative text-white h-full flex flex-col p-12"
         >
