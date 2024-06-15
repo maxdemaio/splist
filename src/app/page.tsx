@@ -79,12 +79,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
       const topArtists: Page<Artist> = await sdk.currentUser.topItems(
         "artists",
-        "short_term",
+        validatedSearch,
         limit
       );
       setTopArtists(() => topArtists);
 
-      const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", "short_term", limit);
+      const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", validatedSearch, limit);
 
       setTopTracks(() => topTracks);
       setLoadingTopItems(false);
