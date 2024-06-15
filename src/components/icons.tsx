@@ -25,7 +25,7 @@ export const Icons = {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g clip-path="url(#clip0_23_90)">
+        <g clipPath="url(#clip0_23_90)">
           <path
             d="M32 64C49.6731 64 64 49.6731 64 32C64 14.3269 49.6731 0 32 0C14.3269 0 0 14.3269 0 32C0 49.6731 14.3269 64 32 64Z"
             fill="#5272A1"
