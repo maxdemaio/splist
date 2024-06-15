@@ -24,6 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+type SearchTerm = "short_term" | "long_term" | "medium_term";
+const validTerms: SearchTerm[] = ["short_term", "long_term", "medium_term"];
+
+// Type guard function to check if a value is a valid SearchTerm
+function isValidSearchTerm(value: any): value is SearchTerm {
+  return validTerms.includes(value);
+}
 
 export default function Home() {
   const session = useSession();
@@ -50,18 +59,18 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   const limit = 5;
-  const timeFrames: { [key: string]: "short_term" | "medium_term" | "long_term" } = {
-    "four weeks": "short_term",
-    "six months": "medium_term",
-    "one year": "long_term",
-  };
 
   const [loadingCopy, setLoadingCopy] = useState(false);
   const [loadingTopItems, setLoadingTopItems] = useState(true);
-
-  const [timeFrame, setTimeFrame] = useState("four weeks");
+  const [timeFrame, setTimeFrame] = useState<SearchTerm>("short_term");
   const [topArtists, setTopArtists] = useState<Page<Artist>>({} as Page<Artist>);
   const [topTracks, setTopTracks] = useState<Page<Track>>({} as Page<Track>);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const search = searchParams.get("search");
+  // Validate search term
+  const validatedSearch: SearchTerm = isValidSearchTerm(search) ? search : "short_term";
 
   useEffect(() => {
     (async () => {
@@ -89,7 +98,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         key={"artist " + artist.id}
         className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
       >
-        <a href={artist.external_urls.spotify} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
+        <a
+          href={artist.external_urls.spotify}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4"
+        >
           <span>{index + 1}</span>
           <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
             <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
@@ -107,7 +121,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         key={"track " + track.id}
         className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
       >
-        <a href={track.external_urls.spotify} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
+        <a
+          href={track.external_urls.spotify}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4"
+        >
           <span>{index + 1}</span>
           <div className="flex flex-col">
             <span className="truncate w-[200px]"> {track.name}</span>
@@ -121,6 +140,12 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const skeletons = Array.from({ length: limit }).map((_, index) => (
     <Skeleton key={index} className="h-[50px] w-[270px]" />
   ));
+
+  function updateQueryParam(timeFrame: SearchTerm) {
+    const params = new URLSearchParams();
+    params.set("search", timeFrame);
+    router.replace(`${pathname}?${params.toString()}`);
+  }
 
   // Generate image on copy
   async function getAndCopyImage() {
@@ -214,11 +239,10 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
     });
   }
 
-  async function handleSelectUpdate(value: string) {
+  async function handleSelectUpdate(timeFrame: SearchTerm) {
     setLoadingTopItems(true);
 
     // Fetch new data
-    const timeFrame = timeFrames[value];
     const topArtists: Page<Artist> = await sdk.currentUser.topItems("artists", timeFrame, limit);
 
     setTopArtists(() => topArtists);
@@ -226,7 +250,8 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
     const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", timeFrame, limit);
 
     setTopTracks(() => topTracks);
-    setTimeFrame(value);
+    setTimeFrame(timeFrame);
+    updateQueryParam(timeFrame);
     setLoadingTopItems(false);
   }
 
@@ -245,16 +270,16 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
-        <Select onValueChange={handleSelectUpdate} defaultValue="four weeks">
+        <Select onValueChange={handleSelectUpdate} defaultValue={validatedSearch}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Four weeks" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Time frame</SelectLabel>
-              <SelectItem value="four weeks">Four weeks</SelectItem>
-              <SelectItem value="six months">Six months</SelectItem>
-              <SelectItem value="one year">One year</SelectItem>
+              <SelectItem value="short_term">Four weeks</SelectItem>
+              <SelectItem value="medium_term">Six months</SelectItem>
+              <SelectItem value="long_term">One year</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
