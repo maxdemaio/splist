@@ -15,6 +15,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Skeleton } from "@/components/ui/skeleton";
 import MadeBy from "@/components/MadeBy";
 import { Icons } from "@/components/icons";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Home() {
   const session = useSession();
@@ -26,7 +35,7 @@ export default function Home() {
 
   return (
     // gap-8 same as mobi navbar gap
-    <main className="flex flex-col gap-8">
+    <main className="flex flex-col gap-8 md:p-12 p-6">
       <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
       <SpotifySearch sdk={sdk} toast={toast} />
       <MadeBy />
@@ -123,7 +132,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
 
       if (res.ok) {
         const blob = await res.blob();
-        
+
         // Check for navigator apis
         if (typeof navigator?.share === "function") {
           await shareImage(blob);
@@ -198,53 +207,56 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <CopyButton id="copy-button" className="flex gap-2 sm:hidden" onClick={getAndCopyImage}>
+    <div
+      id="splist-card"
+      className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-6 sm:p-12"
+      aria-label="Splist Card"
+    >
+      {/* Header */}
+      <div className="space-between flex items-center gap-4">
+        <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
+        <div className="flex flex-col gap-2">
+          <div className="text-3xl md:text-4xl">Splist</div>
+          <div>https://splist-lac.vercel.app/</div>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-4">
+        <Select defaultValue='Four weeks'>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Four weeks" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Time frame</SelectLabel>
+              <SelectItem value="Four weeks">Four weeks</SelectItem>
+              <SelectItem value="Six months">Six months</SelectItem>
+              <SelectItem value="One year">One year</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <CopyButton id="copy-button" className="flex gap-2" onClick={getAndCopyImage}>
           <span>Copy to Clipboard</span>
           {loading ? <Icons.loading /> : <Icons.copy />}
         </CopyButton>
       </div>
 
-      <div
-        id="splist-card"
-        className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-6 sm:p-12"
-        aria-label="Splist Card"
-      >
-        {/* Header */}
-        <div className="space-between flex items-center gap-4">
-          <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
-          <div className="flex flex-col gap-2">
-            <div className="text-3xl md:text-4xl">Splist</div>
-            <div>https://splist-lac.vercel.app/</div>
-          </div>
+      {/* Date information */}
+      <div className="flex text-xl opacity-80">
+        Past four weeks as of {month}/{day}/{year}
+      </div>
+      {/* Table */}
+      <div className="flex-col md:flex-row flex gap-8">
+        <div className="flex flex-col gap-4">
+          <h3 className="opacity-80 text-lg">Top Artists</h3>
+          <ol key={"artistTable"} className="flex flex-col gap-4">
+            {artistTable ? artistTable : skeletons}
+          </ol>
         </div>
-        <CopyButton
-          id="copy-button"
-          className="hidden gap-2 sm:flex absolute top-6 right-6"
-          onClick={getAndCopyImage}
-        >
-          <span>Copy to Clipboard</span>
-          {loading ? <Icons.loading /> : <Icons.copy />}
-        </CopyButton>
-        {/* Date information */}
-        <div className="flex text-xl opacity-80">
-          Past four weeks as of {month}/{day}/{year}
-        </div>
-        {/* Table */}
-        <div className="flex-col md:flex-row flex gap-8">
-          <div className="flex flex-col gap-4">
-            <h3 className="opacity-80 text-lg">Top Artists</h3>
-            <ol key={"artistTable"} className="flex flex-col gap-4">
-              {artistTable ? artistTable : skeletons}
-            </ol>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h3 className="opacity-80 text-lg">Top Songs</h3>
-            <ol key={"trackTable"} className="flex flex-col gap-4 ">
-              {trackTable ? trackTable : skeletons}
-            </ol>
-          </div>
+        <div className="flex flex-col gap-4">
+          <h3 className="opacity-80 text-lg">Top Songs</h3>
+          <ol key={"trackTable"} className="flex flex-col gap-4 ">
+            {trackTable ? trackTable : skeletons}
+          </ol>
         </div>
       </div>
     </div>
