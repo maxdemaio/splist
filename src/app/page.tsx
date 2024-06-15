@@ -29,10 +29,10 @@ import { SearchTerm } from "@/lib/utils";
 
 const validTerms: SearchTerm[] = ["short_term", "long_term", "medium_term"];
 const frames: Record<SearchTerm, string> = {
-  "short_term": "four weeks",
-  "medium_term": "six months",
-  "long_term": "one year"
-}
+  short_term: "four weeks",
+  medium_term: "six months",
+  long_term: "one year",
+};
 
 // Type guard function to check if a value is a valid SearchTerm
 function isValidSearchTerm(value: any): value is SearchTerm {
@@ -89,7 +89,11 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
       );
       setTopArtists(() => topArtists);
 
-      const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", validatedSearch, limit);
+      const topTracks: Page<Track> = await sdk.currentUser.topItems(
+        "tracks",
+        validatedSearch,
+        limit
+      );
 
       setTopTracks(() => topTracks);
       setLoadingTopItems(false);
@@ -263,7 +267,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   return (
     <div
       id="splist-card"
-      className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-6 sm:p-12"
+      className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-6 sm:py-8 sm:px-12"
       aria-label="Splist Card"
     >
       {/* Header */}
@@ -271,7 +275,8 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
         <div className="flex flex-col gap-2">
           <div className="text-3xl md:text-4xl">Splist</div>
-          <div>https://splist-lac.vercel.app/</div>
+
+          <div className="opacity-80">Discover your top artists and tracks</div>
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
@@ -317,6 +322,9 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
             {trackTable ? trackTable : skeletons}
           </ol>
         </div>
+      </div>
+      <div className="flex items-center justify-center opacity-80">
+        <span>https://splist-lac.vercel.app</span>
       </div>
     </div>
   );

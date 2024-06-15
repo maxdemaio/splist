@@ -92,8 +92,11 @@ export async function POST(request: Request) {
             backgroundColor: "rgb(10, 10, 10)",
             borderRadius: "12px",
           }}
-          tw="text-white h-full flex flex-col p-12"
+          tw="relative text-white h-full flex flex-col p-12"
         >
+          <div tw="absolute translate-x-1/2 bottom-8 right-[50%] opacity-80">
+            https://splist-lac.vercel.app
+          </div>
           {/* Header */}
           <div
             style={{
@@ -114,7 +117,7 @@ export async function POST(request: Request) {
               tw="flex flex-col"
             >
               <div tw="text-3xl md:text-4xl">Splist</div>
-              <div>https://splist-lac.vercel.app/</div>
+              <div tw="opacity-80">Discover your top artists and tracks</div>
             </div>
           </div>
           {/* Date information */}
@@ -140,7 +143,7 @@ export async function POST(request: Request) {
       ),
       {
         width: 578,
-        height: 630,
+        height: 679,
       }
     );
   } catch (e: any) {
