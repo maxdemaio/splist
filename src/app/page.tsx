@@ -45,10 +45,15 @@ export default function Home() {
 
   return (
     // gap-8 same as mobi navbar gap
-    <main className="flex flex-col gap-8 md:p-12 p-6">
+    <main className="items-end 2xl:items-start justify-between flex 2xl:flex-row flex-col p-8 gap-4">
+      <div className="2xl:flex order-1 2xl:order-0 basis-0 2xl:basis-64 hidden"></div>
+      <div className="order-2 self-center flex flex-col gap-8">
+        <SpotifySearch sdk={sdk} toast={toast} />
+        <MadeBy />
+      </div>
       <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
-      <SpotifySearch sdk={sdk} toast={toast} />
-      <MadeBy />
+
+
       <Toaster />
     </main>
   );

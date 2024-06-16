@@ -11,7 +11,7 @@ interface INavbarProps {
 
 export default function Navbar(props: INavbarProps) {
   return (
-    <nav className="gap-8 items-center text-base md:text-lg flex-wrap flex justify-between">
+    <nav className="2xl:order-3 basis-auto 2xl:basis-64 gap-8 items-center justify-center text-base md:text-lg flex-wrap flex">
       <div></div>
       <div className="items-center justify-center flex gap-4">
         {props.showSignOut && (
