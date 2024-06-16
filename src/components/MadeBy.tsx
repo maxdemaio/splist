@@ -9,14 +9,21 @@ export default function MadeBy() {
           <a
             className="underline transition-all duration-150 hover:opacity-80"
             href="https://github.com/maxdemaio"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Max DeMaio
           </a>
         </span>
       </div>
 
-      <a href="https://github.com/maxdemaio/splist" className="underline transition-all duration-150 hover:opacity-80">
-        💫 Star on GitHub 
+      <a
+        href="https://github.com/maxdemaio/splist"
+        className="underline transition-all duration-150 hover:opacity-80"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        💫 Star on GitHub
       </a>
     </div>
   );
