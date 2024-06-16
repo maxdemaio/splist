@@ -53,7 +53,6 @@ export default function Home() {
       </div>
       <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
 
-
       <Toaster />
     </main>
   );
@@ -277,7 +276,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         <div className="flex flex-col gap-2">
           <div className="text-3xl md:text-4xl">Splist</div>
 
-          <div className="opacity-80">Discover your top artists and tracks</div>
+          <div className="opacity-80">Discover and share your top artists and tracks!</div>
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
@@ -325,7 +324,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         </div>
       </div>
       <div className="flex items-center justify-center opacity-80">
-        <span>https://splist-lac.vercel.app</span>
+        <span>https://splist.fm</span>
       </div>
     </div>
   );

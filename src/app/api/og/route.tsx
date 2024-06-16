@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
   const HOST =
     process.env.NODE_ENV === "production"
-      ? "https://splist-lac.vercel.app"
+      ? "https://splist.fm"
       : "http://localhost:3000";
 
   const body = await request.json();
@@ -93,8 +93,8 @@ export async function POST(request: Request) {
           }}
           tw="relative text-white h-full flex flex-col p-12"
         >
-          <div tw="absolute translate-x-1/2 bottom-8 right-[50%] opacity-80">
-            https://splist-lac.vercel.app
+          <div tw="w-full flex justify-center items-center absolute bottom-8 opacity-80">
+            <span>https://splist.fm</span>
           </div>
           {/* Header */}
           <div
@@ -116,7 +116,7 @@ export async function POST(request: Request) {
               tw="flex flex-col"
             >
               <div tw="text-3xl md:text-4xl">Splist</div>
-              <div tw="opacity-80">Discover your top artists and tracks</div>
+              <div tw="opacity-80">Discover and share your top artists and tracks!</div>
             </div>
           </div>
           {/* Date information */}
