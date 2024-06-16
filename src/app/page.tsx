@@ -40,7 +40,7 @@ export default function Home() {
   const { toast } = useToast();
 
   if (!session || session.status !== "authenticated") {
-    return <SignIn />
+    return <SignIn />;
   }
 
   return (

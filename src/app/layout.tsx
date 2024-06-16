@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <AuthSessionProvider session={session}>
         <body className={inter.className}>
           {children}
-          <Analytics mode={"production"} />;
+          <Analytics mode={"production"} />
         </body>
       </AuthSessionProvider>
     </html>
