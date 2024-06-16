@@ -1,5 +1,3 @@
-import { Icons } from "./icons";
-
 export default function MadeBy() {
   return (
     <div className="items-center gap-4 w-full flex flex-col justify-center">
