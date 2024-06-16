@@ -45,9 +45,9 @@ export default function Home() {
 
   return (
     // gap-8 same as mobi navbar gap
-    <main className="items-end 2xl:items-start justify-between flex 2xl:flex-row flex-col p-8 gap-4">
-      <div className="2xl:flex order-1 2xl:order-0 basis-0 2xl:basis-64 hidden"></div>
-      <div className="order-2 self-center flex flex-col gap-8">
+    <main className="items-start justify-between flex flex-col xl:flex-row p-8">
+      <div className="order-3 xl:order-1 flex basis-0 xl:basis-56 "></div>
+      <div className="pt-8 xl:pt-0 order-2 self-center flex flex-col gap-8">
         <SpotifySearch sdk={sdk} toast={toast} />
         <MadeBy />
       </div>
