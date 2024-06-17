@@ -75,7 +75,6 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const validatedSearch: SearchTerm = isValidSearchTerm(search) ? search : "short_term";
 
   useEffect(() => {
-    console.log("Fetching data from useEffect");
     const fetchData = async () => {
       try {
         setLoadingTopItems(true);
