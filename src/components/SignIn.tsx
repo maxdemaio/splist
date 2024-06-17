@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import Navbar from "./ui/navbar";
 import { Button } from "./ui/button";
 import MadeBy from "./MadeBy";
+import { Icons } from "./icons";
 
 export default function SignIn() {
   return (
@@ -11,7 +12,7 @@ export default function SignIn() {
         <Card className="w-[350px]">
           <CardHeader>
             <div className="flex items-center gap-4">
-              <img width={80} height={80} src="/splist-logo.png" alt="splist logo" />
+              <Icons.splist />
 
               <div className="flex flex-col gap-2">
                 <div className="text-3xl md:text-4xl">Splist</div>
