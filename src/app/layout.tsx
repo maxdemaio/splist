@@ -11,11 +11,11 @@ export const metadata = {
   openGraph: {
     title: "Splist",
     description: "Discover and share your top artists and songs",
-    url: "https://splist-lac.vercel.app/",
+    url: "https://splist.fm/",
     siteName: "Splist",
     images: [
       {
-        url: "https://splist-lac.vercel.app/og.png", // Must be an absolute URL
+        url: "https://splist.fm/og-new.png", // Must be an absolute URL
         width: 1200,
         height: 630,
       },
