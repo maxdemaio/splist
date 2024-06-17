@@ -261,7 +261,9 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
     >
       {/* Header */}
       <div className="space-between flex items-center gap-4">
-        <Icons.splist />
+        <div>
+          <Icons.splist />
+        </div>
         <div className="flex flex-col gap-2">
           <div className="text-3xl md:text-4xl">Splist</div>
 
