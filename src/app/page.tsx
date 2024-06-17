@@ -44,7 +44,6 @@ export default function Home() {
   }
 
   return (
-    // gap-8 same as mobi navbar gap
     <main className="items-start justify-between flex flex-col xl:flex-row p-8">
       <div className="order-3 xl:order-1 flex basis-0 xl:basis-56 "></div>
       <div className="pt-8 xl:pt-0 order-2 self-center flex flex-col gap-8">
@@ -52,7 +51,6 @@ export default function Home() {
         <MadeBy />
       </div>
       <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
-
       <Toaster />
     </main>
   );
@@ -74,81 +72,36 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const router = useRouter();
   const pathname = usePathname();
   const search = searchParams.get("search");
-  // Validate search term
   const validatedSearch: SearchTerm = isValidSearchTerm(search) ? search : "short_term";
 
   useEffect(() => {
-    (async () => {
-      // For now, just short term top artists
-      // TODO: make these requests in parallel
+    console.log("Fetching data from useEffect");
+    const fetchData = async () => {
+      try {
+        setLoadingTopItems(true);
 
-      const topArtists: Page<Artist> = await sdk.currentUser.topItems(
-        "artists",
-        validatedSearch,
-        limit
-      );
-      setTopArtists(() => topArtists);
+        // Make the API calls in parallel
+        const [artists, tracks] = await Promise.all([
+          sdk.currentUser.topItems("artists", validatedSearch, limit),
+          sdk.currentUser.topItems("tracks", validatedSearch, limit),
+        ]);
 
-      const topTracks: Page<Track> = await sdk.currentUser.topItems(
-        "tracks",
-        validatedSearch,
-        limit
-      );
+        setTopArtists(artists);
+        setTopTracks(tracks);
+      } catch (err) {
+        console.error(err);
+        toast({
+          title: "Error",
+          description: "Failed to fetch top items.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoadingTopItems(false);
+      }
+    };
 
-      setTopTracks(() => topTracks);
-      setLoadingTopItems(false);
-    })();
-  }, [sdk]);
-
-  // Generate a table for the artists
-  const artistTable = topArtists?.items?.map((artist, index) => {
-    return (
-      <li
-        key={"artist " + artist.id}
-        className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
-      >
-        <a
-          href={artist.external_urls.spotify}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-4"
-        >
-          <span>{index + 1}</span>
-          <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
-            <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
-          </div>
-          <span className="w-[167px] line-clamp-2">{artist.name}</span>
-        </a>
-      </li>
-    );
-  });
-
-  // Generate a table for the artists
-  const trackTable = topTracks?.items?.map((track, index) => {
-    return (
-      <li
-        key={"track " + track.id}
-        className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
-      >
-        <a
-          href={track.external_urls.spotify}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-4"
-        >
-          <span>{index + 1}</span>
-          <div className="flex flex-col">
-            <span className="truncate w-[200px]"> {track.name}</span>
-            <span className="opacity-80 text-xs truncate w-[167px]">{track.artists[0].name}</span>
-          </div>
-        </a>
-      </li>
-    );
-  });
-
-  const skeletons = Array.from({ length: limit }).map((_, index) => (
-    <Skeleton key={index} className="h-[50px] w-[270px]" />
-  ));
+    fetchData();
+  }, [sdk, validatedSearch, limit, toast]);
 
   function updateQueryParam(timeFrame: SearchTerm) {
     const params = new URLSearchParams();
@@ -187,14 +140,15 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         throw new Error("Failed to fetch the image.");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Image Fetching Failed", err);
       showToast(
-        "Image Copy Failed",
-        "Oops, the image failed to be copied to your clipboard!",
+        "Image Fetching Failed",
+        "Oops, the image failed to be fetched from the server!",
         "destructive"
       );
+    } finally {
+      setLoadingCopy(false);
     }
-    setLoadingCopy(false);
   }
 
   async function shareImage(blob: Blob) {
@@ -232,7 +186,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   }
 
   function handleUnsupportedAPI() {
-    console.error("Share not supported");
+    console.error("Share/Clipboard not supported");
     showToast(
       "Share Not Supported",
       "Your browser does not support the Web Share/Clipboard API.",
@@ -249,20 +203,56 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   }
 
   async function handleSelectUpdate(timeFrame: SearchTerm) {
-    setLoadingTopItems(true);
-
-    // Fetch new data
-    const topArtists: Page<Artist> = await sdk.currentUser.topItems("artists", timeFrame, limit);
-
-    setTopArtists(() => topArtists);
-
-    const topTracks: Page<Track> = await sdk.currentUser.topItems("tracks", timeFrame, limit);
-
-    setTopTracks(() => topTracks);
     setTimeFrame(timeFrame);
     updateQueryParam(timeFrame);
-    setLoadingTopItems(false);
   }
+
+  // Generate a table for the artists
+  const artistTable = topArtists?.items?.map((artist, index) => (
+    <li
+      key={"artist " + artist.id}
+      className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
+    >
+      <a
+        href={artist.external_urls.spotify}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4"
+      >
+        <span>{index + 1}</span>
+        <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
+          <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
+        </div>
+        <span className="w-[167px] line-clamp-2">{artist.name}</span>
+      </a>
+    </li>
+  ));
+
+  // Generate a table for the artists
+  const trackTable = topTracks?.items?.map((track, index) => (
+    <li
+      key={"track " + track.id}
+      className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
+    >
+      <a
+        href={track.external_urls.spotify}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4"
+      >
+        <span>{index + 1}</span>
+        <div className="flex flex-col">
+          <span className="truncate w-[200px]"> {track.name}</span>
+          <span className="opacity-80 text-xs truncate w-[167px]">{track.artists[0].name}</span>
+        </div>
+      </a>
+    </li>
+  ));
+
+  // Generate skeletons
+  const skeletons = Array.from({ length: limit }).map((_, index) => (
+    <Skeleton key={index} className="h-[50px] w-[270px]" />
+  ));
 
   return (
     <div
