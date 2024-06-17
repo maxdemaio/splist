@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   openGraph: {
     title: "Splist",
-    description: "Share your top artists and songs with friends!",
+    description: "Discover and share your top artists and songs",
     url: "https://splist-lac.vercel.app/",
     siteName: "Splist",
     images: [

@@ -116,7 +116,7 @@ export async function POST(request: Request) {
               tw="flex flex-col"
             >
               <div tw="text-3xl md:text-4xl">Splist</div>
-              <div tw="opacity-80">Discover and share your top artists and tracks!</div>
+              <div tw="opacity-80">Discover and share your top artists and songs</div>
             </div>
           </div>
           {/* Date information */}
