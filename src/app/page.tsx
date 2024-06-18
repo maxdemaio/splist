@@ -37,7 +37,7 @@ function isValidSearchTerm(value: any): value is SearchTerm {
 
 // Function to determine if the device is mobile
 const isMobileDevice = () => {
-  const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 1;
   const isSmallScreen = window.matchMedia("only screen and (max-width: 760px)").matches;
   return hasTouchScreen && isSmallScreen;
 };
