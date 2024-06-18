@@ -17,7 +17,7 @@ export default function MadeBy() {
         </div>
 
         <div className="text-center opacity-80 border-b-[1px] border-neutral-950">
-          Logo designed by Lauren Susi
+          Logo design by Lauren Susi
         </div>
       </div>
 
