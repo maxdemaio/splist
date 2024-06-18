@@ -269,7 +269,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   return (
     <div
       id="splist-card"
-      className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border-2 border-neutral-700 rounded-xl p-6 sm:py-8 sm:px-12"
+      className="relative self-center max-w-fit bg-neutral-950 text-white gap-8 flex flex-col border rounded-xl p-6 sm:py-8 sm:px-12"
       aria-label="Splist Card"
     >
       {/* Header */}
