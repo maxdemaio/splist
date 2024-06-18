@@ -19,6 +19,7 @@
 - handle when topTracks or topArtists are empty (display - "not enough data")
 - actually design a logo (omegalul)
 - add favicon (png to favicon converter lol)
+- check windows chrome copy button
 
 ## Notes
 
