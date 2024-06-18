@@ -11,8 +11,7 @@ interface INavbarProps {
 
 export default function Navbar(props: INavbarProps) {
   return (
-    <nav className="self-end xl:self-start flex order-1 xl:order-3 basis-auto gap-8 items-center justify-center">
-      <div className="items-center justify-center flex gap-4">
+    <nav className="order-1 xl:order-3 flex gap-4 items-center justify-end">
         {props.showSignOut && (
           <Button size={"lg"} variant={"secondary"} onClick={() => signOut()}>
             Sign out
@@ -42,7 +41,6 @@ export default function Navbar(props: INavbarProps) {
             )}
           </>
         )}
-      </div>
     </nav>
   );
 }

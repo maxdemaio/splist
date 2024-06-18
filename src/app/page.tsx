@@ -44,15 +44,21 @@ export default function Home() {
   }
 
   return (
-    <main className="items-start justify-between flex flex-col xl:flex-row p-8">
-      <div className="order-3 xl:order-1 flex basis-0"></div>
-      <div className="pt-8 xl:pt-0 order-2 self-center flex flex-col gap-8">
-        <SpotifySearch sdk={sdk} toast={toast} />
-        <MadeBy />
-      </div>
-      <Navbar showSignOut userName={session.data.user?.name} userImage={session.data.user?.image} />
+    <>
+      <main className="grid items-start gap-8 grid-flow-row auto-rows-dense xl:grid-flow-col xl:auto-cols-fr p-8">
+        <div className="xl:flex hidden order-1"></div>
+        <div className="flex flex-col gap-8 order-2">
+          <SpotifySearch sdk={sdk} toast={toast} />
+          <MadeBy />
+        </div>
+        <Navbar
+          showSignOut
+          userName={session.data.user?.name}
+          userImage={session.data.user?.image}
+        />
+      </main>
       <Toaster />
-    </main>
+    </>
   );
 }
 
