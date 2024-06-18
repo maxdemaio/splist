@@ -223,7 +223,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const artistTable = topArtists?.items?.map((artist, index) => (
     <li
       key={"artist " + artist.id}
-      className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
+      className="transition-all duration-300 hover:cursor-pointer hover:opacity-70 h-[50px] w-[270px]"
     >
       <a
         href={artist.external_urls.spotify}
@@ -244,7 +244,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   const trackTable = topTracks?.items?.map((track, index) => (
     <li
       key={"track " + track.id}
-      className="transition-all duration-150 hover:cursor-pointer hover:opacity-80 h-[50px] w-[270px]"
+      className="transition-all duration-300 hover:cursor-pointer hover:opacity-70 h-[50px] w-[270px]"
     >
       <a
         href={track.external_urls.spotify}
