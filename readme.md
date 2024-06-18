@@ -1,6 +1,6 @@
 # splist
 
-![splist og](./public/og-new.png)
+![splist og](./public/og-new-1.png)
 
 ## Developer Setup
 

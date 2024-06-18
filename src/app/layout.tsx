@@ -15,7 +15,7 @@ export const metadata = {
     siteName: "Splist",
     images: [
       {
-        url: "https://splist.fm/og-new.png", // Must be an absolute URL
+        url: "https://splist.fm/og-new-1.png", // Must be an absolute URL
         width: 1200,
         height: 630,
       },
