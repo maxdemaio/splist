@@ -35,6 +35,13 @@ function isValidSearchTerm(value: any): value is SearchTerm {
   return validTerms.includes(value);
 }
 
+// Function to determine if the device is mobile
+const isMobileDevice = () => {
+  const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isSmallScreen = window.matchMedia("only screen and (max-width: 760px)").matches;
+  return hasTouchScreen && isSmallScreen;
+};
+
 export default function Home() {
   const session = useSession();
   const { toast } = useToast();
@@ -134,7 +141,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         const blob = await res.blob();
 
         // Check for navigator apis
-        if (typeof navigator?.share === "function" && typeof navigator?.canShare === "function") {
+        if (typeof navigator?.share === "function" && typeof navigator?.canShare === "function" && isMobileDevice()) {
           await shareImage(blob);
         } else if (typeof navigator?.clipboard?.write === "function") {
           await copyImageToClipboard(blob);
