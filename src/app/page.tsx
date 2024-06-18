@@ -232,7 +232,8 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         className="flex items-center gap-4"
       >
         <span>{index + 1}</span>
-        <div className="flex justify-center items-center w-[50px] h-[50px] rounded-[50%] overflow-hidden ">
+        {/* rounded-[50%] */}
+        <div className="flex justify-center items-center w-[50px] h-[50px] overflow-hidden ">
           <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
         </div>
         <span className="w-[167px] line-clamp-2">{artist.name}</span>

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       >
         <span>{index + 1}</span>
         <div
-          style={{ overflow: "hidden", borderRadius: "50%" }}
+          style={{ overflow: "hidden"}}
           tw="flex justify-center items-center w-[50px] h-[50px]"
         >
           <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
