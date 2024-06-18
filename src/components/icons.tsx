@@ -97,8 +97,8 @@ export const Icons = {
             y2="31.6403"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.14" stop-color="#39B54A" />
-            <stop offset="0.77" stop-color="#9AE5A1" />
+            <stop offset="0.14" stopColor="#39B54A" />
+            <stop offset="0.77" stopColor="#9AE5A1" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_66_319"
@@ -108,8 +108,8 @@ export const Icons = {
             y2="54.65"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.31" stop-color="white" stop-opacity="0" />
-            <stop offset="0.86" stop-color="white" />
+            <stop offset="0.31" stopColor="white" stopOpacity="0" />
+            <stop offset="0.86" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_66_319"
@@ -119,8 +119,8 @@ export const Icons = {
             y2="15.3509"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.31" stop-color="#39B55B" />
-            <stop offset="0.86" stop-color="#75DB7E" />
+            <stop offset="0.31" stopColor="#39B55B" />
+            <stop offset="0.86" stopColor="#75DB7E" />
           </linearGradient>
         </defs>
       </svg>
@@ -155,14 +155,14 @@ export const Icons = {
         <path
           d="M10.6668 14.6847V12.7714C10.6918 12.4535 10.6488 12.1339 10.5408 11.8339C10.4327 11.5339 10.262 11.2603 10.0401 11.0314C12.1334 10.798 14.3334 10.0047 14.3334 6.36469C14.3333 5.43391 13.9752 4.53882 13.3334 3.86469C13.6373 3.05036 13.6158 2.15026 13.2734 1.35136C13.2734 1.35136 12.4868 1.11802 10.6668 2.33802C9.13868 1.92455 7.52817 1.92455 6.00009 2.33802C4.18009 1.11802 3.39343 1.35136 3.39343 1.35136C3.05101 2.15026 3.02952 3.05036 3.33343 3.86469C2.68684 4.54382 2.32844 5.447 2.33343 6.38469C2.33343 9.99802 4.53342 10.7914 6.62676 11.0514C6.40742 11.278 6.23827 11.5483 6.1303 11.8446C6.02233 12.141 5.97796 12.4567 6.00009 12.7714V14.6847"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M6.00004 13.3513C4.00004 14 2.33337 13.3513 1.33337 11.3513"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     );

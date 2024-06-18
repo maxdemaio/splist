@@ -138,8 +138,8 @@ export async function POST(request: Request) {
                   y2="31.6403"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop offset="0.14" stop-color="#39B54A" />
-                  <stop offset="0.77" stop-color="#9AE5A1" />
+                  <stop offset="0.14" stopColor="#39B54A" />
+                  <stop offset="0.77" stopColor="#9AE5A1" />
                 </linearGradient>
                 <linearGradient
                   id="paint1_linear_66_319"
@@ -149,8 +149,8 @@ export async function POST(request: Request) {
                   y2="54.65"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop offset="0.31" stop-color="white" stop-opacity="0" />
-                  <stop offset="0.86" stop-color="white" />
+                  <stop offset="0.31" stopColor="white" stopOpacity="0" />
+                  <stop offset="0.86" stopColor="white" />
                 </linearGradient>
                 <linearGradient
                   id="paint2_linear_66_319"
@@ -160,8 +160,8 @@ export async function POST(request: Request) {
                   y2="15.3509"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop offset="0.31" stop-color="#39B55B" />
-                  <stop offset="0.86" stop-color="#75DB7E" />
+                  <stop offset="0.31" stopColor="#39B55B" />
+                  <stop offset="0.86" stopColor="#75DB7E" />
                 </linearGradient>
               </defs>
             </svg>
