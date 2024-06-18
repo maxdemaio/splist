@@ -174,10 +174,11 @@ export async function POST(request: Request) {
           <div tw="flex text-xl gap-3 items-center">
             <div tw="flex">
               <img
-                height={71}
-                width={72}
-                src="https://splist.fm/Spotify-Primary-Logo-White.png"
+                height={73}
+                width={73}
+                src="https://splist.fm/Spotify-Icon.png"
                 alt="Spotify Logo"
+                tw="mr-4"
               />
             </div>
 
