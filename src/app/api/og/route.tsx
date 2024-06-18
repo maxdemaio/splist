@@ -25,10 +25,7 @@ export async function POST(request: Request) {
         tw="h-[50px] max-w-[270px] flex items-center"
       >
         <span>{index + 1}</span>
-        <div
-          style={{ overflow: "hidden"}}
-          tw="flex justify-center items-center w-[50px] h-[50px]"
-        >
+        <div style={{ overflow: "hidden" }} tw="flex justify-center items-center w-[50px] h-[50px]">
           <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
         </div>
 
@@ -91,9 +88,6 @@ export async function POST(request: Request) {
           }}
           tw="relative text-white h-full flex flex-col p-12"
         >
-          <div tw="w-full flex justify-center items-center absolute bottom-8 opacity-80">
-            <span>https://splist.fm</span>
-          </div>
           {/* Header */}
           <div
             style={{
@@ -177,9 +171,21 @@ export async function POST(request: Request) {
             </div>
           </div>
           {/* Date information */}
-          <div tw="flex text-xl opacity-80">
-            Past {timeFrame} as of {month}/{day}/{year}
+          <div tw="flex text-xl gap-3 items-center">
+            <div tw="flex">
+              <img
+                height={71}
+                width={72}
+                src="https://splist.fm/Spotify-Primary-Logo-White.png"
+                alt="Spotify Logo"
+              />
+            </div>
+
+            <div tw="flex">
+              Past {timeFrame} as of {month}/{day}/{year}
+            </div>
           </div>
+
           {/* Table */}
           <div style={{ gap: "32px" }} tw="flex">
             <div style={{ gap: "8px" }} tw="flex flex-col">

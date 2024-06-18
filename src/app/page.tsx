@@ -37,7 +37,7 @@ function isValidSearchTerm(value: any): value is SearchTerm {
 
 // Function to determine if the device is mobile
 const isMobileDevice = () => {
-  const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 1;
+  const hasTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints > 1;
   const isSmallScreen = window.matchMedia("only screen and (max-width: 760px)").matches;
   return hasTouchScreen && isSmallScreen;
 };
@@ -141,7 +141,11 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         const blob = await res.blob();
 
         // Check for navigator apis
-        if (typeof navigator?.share === "function" && typeof navigator?.canShare === "function" && isMobileDevice()) {
+        if (
+          typeof navigator?.share === "function" &&
+          typeof navigator?.canShare === "function" &&
+          isMobileDevice()
+        ) {
           await shareImage(blob);
         } else if (typeof navigator?.clipboard?.write === "function") {
           await copyImageToClipboard(blob);
@@ -232,7 +236,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         className="flex items-center gap-4"
       >
         <span>{index + 1}</span>
-        {/* rounded-[50%] */}
+        {/* main:rounded-[50%] */}
         <div className="flex justify-center items-center w-[50px] h-[50px] overflow-hidden ">
           <img width={50} src={artist.images[2].url} alt={artist.name + " image"} />
         </div>
@@ -310,8 +314,14 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
       </div>
 
       {/* Date information */}
-      <div className="flex text-xl opacity-80">
-        Past {allTimeFrames[validatedSearch]} as of {month}/{day}/{year}
+      {/* main:opacity-80 */}
+      <div className="flex text-xl gap-3 items-center">
+        <div>
+          <img src="/Spotify-Icon.png" alt="Spotify Logo" />
+        </div>
+        <div>
+          Past {allTimeFrames[validatedSearch]} as of {month}/{day}/{year}
+        </div>
       </div>
       {/* Table */}
       <div className="flex-col md:flex-row flex gap-8">

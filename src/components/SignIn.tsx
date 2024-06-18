@@ -21,12 +21,17 @@ export default function SignIn() {
             <CardDescription className="text-lg">
               Share your top artists and tracks with your friends!
             </CardDescription>
-            <CardDescription className="text-lg">
-              (Currently in closed beta)
-            </CardDescription>
+            <CardDescription className="text-lg">(Currently in closed beta)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-4 flex-col items-center justify-center">
+            <div className="flex gap-4 items-center justify-center">
+              <div>
+                <img
+                  className="opacity-100"
+                  src="/Spotify-Icon.png"
+                  alt="Spotify Logo"
+                />
+              </div>
               <Button size={"lg"} onClick={() => signIn("spotify")}>
                 Sign in with Spotify
               </Button>
