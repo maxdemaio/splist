@@ -22,7 +22,7 @@ export default function SignIn() {
               Share your top artists and tracks with your friends!
             </CardDescription>
             <CardDescription className="text-lg">
-              (Currently in closed beta)
+              (Currently in public beta)
             </CardDescription>
           </CardHeader>
           <CardContent>
