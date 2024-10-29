@@ -1,12 +1,13 @@
 "use client";
 
-import { Artist, Page, SpotifyApi, Track } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
+import { Artist, Page, Playlist, SpotifyApi, Track, TrackItem } from "@spotify/web-api-ts-sdk"; // use "@spotify/web-api-ts-sdk" in your own project
 
 import sdk from "@/lib/spotify-sdk/ClientInstance";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/ui/navbar";
 import { CopyButton } from "@/components/ui/copy-button";
+import { GenerateButton } from "@/components/ui/generate-button";
 // TODO: add later
 import Image from "next/image";
 import SignIn from "@/components/SignIn";
@@ -37,7 +38,7 @@ function isValidSearchTerm(value: any): value is SearchTerm {
 
 // Function to determine if the device is mobile
 const isMobileDevice = () => {
-  const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 1;
+  const hasTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints > 1;
   const isSmallScreen = window.matchMedia("only screen and (max-width: 760px)").matches;
   return hasTouchScreen && isSmallScreen;
 };
@@ -55,7 +56,7 @@ export default function Home() {
       <main className="grid items-start gap-8 grid-flow-row auto-rows-dense xl:grid-flow-col xl:auto-cols-fr p-8">
         <div className="xl:flex hidden order-1"></div>
         <div className="flex flex-col gap-8 order-2">
-          <SpotifySearch sdk={sdk} toast={toast} />
+          <SpotifySearch sdk={sdk} toast={toast} userName={session.data.user?.name} />
           <MadeBy />
         </div>
         <Navbar
@@ -69,12 +70,21 @@ export default function Home() {
   );
 }
 
-function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
+function SpotifySearch({
+  sdk,
+  toast,
+  userName,
+}: {
+  sdk: SpotifyApi;
+  toast: any;
+  userName: string | null | undefined;
+}) {
   const date = new Date();
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
-  const limit = 5;
+  const limit = 20;
+  const shownAmount = 5;
 
   const [loadingCopy, setLoadingCopy] = useState(false);
   const [loadingTopItems, setLoadingTopItems] = useState(true);
@@ -141,7 +151,11 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
         const blob = await res.blob();
 
         // Check for navigator apis
-        if (typeof navigator?.share === "function" && typeof navigator?.canShare === "function" && isMobileDevice()) {
+        if (
+          typeof navigator?.share === "function" &&
+          typeof navigator?.canShare === "function" &&
+          isMobileDevice()
+        ) {
           await shareImage(blob);
         } else if (typeof navigator?.clipboard?.write === "function") {
           await copyImageToClipboard(blob);
@@ -160,6 +174,38 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
       );
     } finally {
       setLoadingCopy(false);
+    }
+  }
+
+  async function createPlaylist() {
+    if (!!userName) {
+      try {
+        // Create Playlist
+        sdk.playlists
+          .createPlaylist(userName, {
+            name: `Recently (Past ${allTimeFrames[validatedSearch]} as of ${month}/${day}/${year})`,
+            public: true,
+            collaborative: false,
+            description: "My top artists and songs from Spotify",
+          })
+          .then((playlist: Playlist<TrackItem>) => {
+            console.log(playlist);
+            // Add Songs to Playlist
+            sdk.playlists.addItemsToPlaylist(
+              playlist.id,
+              topTracks.items.map((track) => track.uri)
+            );
+          });
+
+        showToast("Playlist Created", "The playlist has been created successfully!");
+      } catch (err) {
+        console.error("Playlist creation failed", err);
+        showToast(
+          "Playlist Creation Failed",
+          "Oops, the playlist failed to be created!",
+          "destructive"
+        );
+      }
     }
   }
 
@@ -220,7 +266,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   }
 
   // Generate a table for the artists
-  const artistTable = topArtists?.items?.map((artist, index) => (
+  const artistTable = topArtists?.items?.slice(0, shownAmount).map((artist, index) => (
     <li
       key={"artist " + artist.id}
       className="transition-all duration-300 hover:cursor-pointer hover:opacity-70 h-[50px] w-[270px]"
@@ -241,7 +287,7 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
   ));
 
   // Generate a table for the artists
-  const trackTable = topTracks?.items?.map((track, index) => (
+  const trackTable = topTracks?.items?.slice(0, shownAmount).map((track, index) => (
     <li
       key={"track " + track.id}
       className="transition-all duration-300 hover:cursor-pointer hover:opacity-70 h-[50px] w-[270px]"
@@ -306,6 +352,9 @@ function SpotifySearch({ sdk, toast }: { sdk: SpotifyApi; toast: any }) {
           <span>Copy to Clipboard</span>
           {loadingCopy ? <Icons.loading /> : <Icons.copy />}
         </CopyButton>
+        <GenerateButton onClick={createPlaylist}>
+          <span>Generate Playlist (top 20)</span>
+        </GenerateButton>
       </div>
 
       {/* Date information */}
